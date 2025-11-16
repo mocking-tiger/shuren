@@ -13,7 +13,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form className="w-[50%] mt-40 mx-auto flex flex-col items-center justify-center gap-4">
+    <form className="w-[50%] mt-20 mx-auto flex flex-col items-center justify-center gap-4">
       <label htmlFor="email">이메일</label>
       <Input type="email" id="email" placeholder="이메일을 입력해주세요." />
       <label htmlFor="password">비밀번호</label>
