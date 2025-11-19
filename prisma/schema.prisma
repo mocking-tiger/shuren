@@ -26,10 +26,10 @@ enum Level {
 model Word{
   id Int @id @default(autoincrement())
   word String @unique
-  kana String
-  meaning String 
+  wordKana String
+  wordMeaning String 
   example String 
   exampleKana String 
-  exampleMeaning String 
+  exampleMeaning String
   level Level
 }
