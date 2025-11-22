@@ -23,13 +23,25 @@ enum Level {
 // Model
 // ================================================
 
+model User{
+  id Int @id @default(autoincrement())
+  email String @unique
+  password String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("user")
+}
+
 model Word{
   id Int @id @default(autoincrement())
   word String @unique
-  wordKana String
-  wordMeaning String 
+  wordKana String @map("word_kana")
+  wordMeaning String @map("word_meaning")
   example String 
-  exampleKana String 
-  exampleMeaning String
+  exampleKana String @map("example_kana")
+  exampleMeaning String @map("example_meaning")
   level Level
+
+  @@map("word")
 }
