@@ -9,7 +9,7 @@ const Button = ({ type, onClick, children }: ButtonProps) => {
     <button
       type={type}
       onClick={onClick}
-      className="w-full p-2 border bg-black text-white rounded-md"
+      className="w-full p-2 border bg-black text-white rounded-md cursor-pointer"
     >
       {children}
     </button>

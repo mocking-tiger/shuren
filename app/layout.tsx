@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Gowun_Batang, Shippori_Mincho, Yuji_Syuku } from "next/font/google";
 import "./globals.css";
+import SizeChecker from "./components/ui/SizeChecker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,9 +51,10 @@ export default function RootLayout({
       >
         <div className="min-h-screen bg-[url('/images/bg/shoji2.jpg')] bg-cover bg-center flex items-center justify-center">
           {/* 컨텐츠 블럭 */}
-          <main className="w-[70%] h-screen bg-[url('/images/bg/hanji2.jpg')]">
+          <main className="w-[90%] md:w-[70%] h-screen bg-[url('/images/bg/hanji2.jpg')]">
             {children}
           </main>
+          <SizeChecker />
         </div>
       </body>
     </html>
