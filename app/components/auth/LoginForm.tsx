@@ -1,15 +1,12 @@
 "use client";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
+import Link from "next/link";
 
 const LoginForm = () => {
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log("로그인");
-  };
-
-  const handleSignup = () => {
-    console.log("회원가입");
   };
 
   return (
@@ -25,9 +22,11 @@ const LoginForm = () => {
       <Button type="submit" onClick={(e) => handleLogin(e)}>
         로그인
       </Button>
-      <Button type="button" onClick={handleSignup}>
-        회원가입
-      </Button>
+      <Link href="/signup" className="w-full">
+        <Button type="button">
+          회원가입
+        </Button>
+      </Link>
     </form>
   );
 };
