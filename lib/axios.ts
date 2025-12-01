@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from "axios";
 
 // axios 인스턴스 생성
 const axiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    baseURL: process.env.NEXT_PUBLIC_API_URL || "/api",
     headers: {
         "Content-Type": "application/json",
     },
