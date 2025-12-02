@@ -1,7 +1,7 @@
 "use client";
+import Link from "next/link";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
-import Link from "next/link";
 
 const LoginForm = () => {
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,9 +23,7 @@ const LoginForm = () => {
         로그인
       </Button>
       <Link href="/signup" className="w-full">
-        <Button type="button">
-          회원가입
-        </Button>
+        <Button type="button">회원가입</Button>
       </Link>
     </form>
   );

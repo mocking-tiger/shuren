@@ -42,7 +42,7 @@ model UserProgress{
   id Int @id @default(autoincrement())
 
   currentGrade Int @default(9) @map("current_grade")
-  exp          Int @default(0)
+  exp          Int @default(0) // 0 | 1 | 2 | 3
   isMaster     Boolean @default(false) @map("is_master")
 
   userId       Int @unique @map("user_id")

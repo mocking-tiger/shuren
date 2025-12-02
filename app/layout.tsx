@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Gowun_Batang, Shippori_Mincho, Yuji_Syuku } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Gowun_Batang,
+  Shippori_Mincho,
+  Yuji_Syuku,
+} from "next/font/google";
 import "./globals.css";
 import SizeChecker from "./components/ui/SizeChecker";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,6 +60,7 @@ export default function RootLayout({
           {/* 컨텐츠 블럭 */}
           <main className="w-[90%] md:w-[70%] h-screen bg-[url('/images/bg/hanji2.jpg')]">
             {children}
+            <Toaster />
           </main>
           <SizeChecker />
         </div>

@@ -2,42 +2,54 @@
 // Enum
 // ================================================
 export enum Role {
-    GUEST = 0,
-    USER = 1,
-    ADMIN = 10,
+  GUEST = 0,
+  USER = 1,
+  ADMIN = 10,
 }
 
 export enum Level {
-    N1 = "N1",
-    N2 = "N2",
-    N3 = "N3",
-    N4 = "N4",
-    N5 = "N5",
+  N1 = "N1",
+  N2 = "N2",
+  N3 = "N3",
+  N4 = "N4",
+  N5 = "N5",
 }
 
 // ================================================
 // 테이블 인터페이스
 // ================================================
 export interface User {
-    id: number;
+  id: number;
 
-    email: string;
-    name: string;
-    password: string;
-    role: Role;
-    createdAt: Date;
-    updatedAt: Date;
+  email: string;
+  name: string;
+  password: string;
+  role: Role;
+  createdAt: Date;
+  updatedAt: Date;
 
-    userProgress: UserProgress;
+  userProgress: UserProgress;
 }
 
 export interface UserProgress {
-    id: number;
+  id: number;
 
-    currentGrade: number;
-    exp: number;
-    isMaster: boolean;
+  currentGrade: number;
+  exp: number;
+  isMaster: boolean;
 
-    userId: number;
-    user: User;
+  userId: number;
+  user: User;
+}
+
+// ================================================
+// API 응답 인터페이스
+// ================================================
+export interface ErrorResponse {
+  response: {
+    data: {
+      error: string;
+    };
+    status: number;
+  };
 }
