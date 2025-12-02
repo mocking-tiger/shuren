@@ -34,17 +34,37 @@ axiosInstance.interceptors.response.use(
 // AxiosRequestConfig란? Axios 요청 시 전달할 수 있는 옵션들의 타입
 // apiGet('/api/users', { params: { id: 1 }, headers: { 'Content-Type': 'application/json' }, timeout: 1000 }) 의 형태로 사용.
 export const apiGet = async (url: string,config?: AxiosRequestConfig) => {
-    return axiosInstance.get(url, config);
+    try{
+        return axiosInstance.get(url, config);
+    }catch(error){
+        console.error(error);
+        return {data: "apiGet 에러"};
+    }
 }
 
 export const apiPost = async (url: string, data: unknown, config?: AxiosRequestConfig) => {
-    return axiosInstance.post(url, data, config);
+    try{
+        return axiosInstance.post(url, data, config);
+    }catch(error){
+        console.error(error);
+        return {data: "apiPost 에러"};
+    }
 }
 
 export const apiPut = async (url: string, data: unknown, config?: AxiosRequestConfig) => {
-    return axiosInstance.put(url, data, config);
+    try{
+        return axiosInstance.put(url, data, config);
+    }catch(error){
+        console.error(error);
+        return {data: "apiPut 에러"};
+    }
 }
 
 export const apiDelete = async (url: string, config?: AxiosRequestConfig) => {
-    return axiosInstance.delete(url, config);
+    try{
+        return axiosInstance.delete(url, config);
+    }catch(error){
+        console.error(error);
+        return {data: "apiDelete 에러"};
+    }
 }
