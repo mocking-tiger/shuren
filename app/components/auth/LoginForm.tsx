@@ -16,7 +16,9 @@ const LoginForm = () => {
     formState: { errors, isSubmitting }, // 폼 제출 상태 관리
   } = useForm<LoginFormData>();
 
-  const handleLogin = async (data: LoginFormData) => {};
+  const handleLogin = async (data: LoginFormData) => {
+    console.log(data);
+  };
 
   return (
     <form

@@ -1,4 +1,5 @@
 "use client";
+import Input from "../ui/Input";
 import Button from "../ui/Button";
 import { apiPost } from "@/lib/axios";
 import { toast } from "react-hot-toast";
@@ -48,8 +49,7 @@ const SignupForm = () => {
       onSubmit={handleSubmit(handleSignup)}
     >
       <label htmlFor="email">이메일</label>
-      <input
-        className="w-full p-2 border border-gray-300 rounded-md"
+      <Input
         type="email"
         id="email"
         placeholder="이메일을 입력해주세요."
@@ -63,8 +63,7 @@ const SignupForm = () => {
       />
       {errors.email && <p className="text-red-500">{errors.email.message}</p>}
       <label htmlFor="password">비밀번호</label>
-      <input
-        className="w-full p-2 border border-gray-300 rounded-md"
+      <Input
         type="password"
         id="password"
         placeholder="비밀번호를 입력해주세요."
@@ -84,8 +83,7 @@ const SignupForm = () => {
         <p className="text-red-500">{errors.password.message}</p>
       )}
       <label htmlFor="passwordConfirm">비밀번호 확인</label>
-      <input
-        className="w-full p-2 border border-gray-300 rounded-md"
+      <Input
         type="password"
         id="passwordConfirm"
         placeholder="비밀번호를 다시 입력해주세요."
