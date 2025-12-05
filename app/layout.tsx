@@ -9,6 +9,7 @@ import {
 import "./globals.css";
 import SizeChecker from "./components/ui/SizeChecker";
 import { Toaster } from "react-hot-toast";
+import AuthSessionProvider from "./components/providers/SessionProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,14 +57,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${gowunBatang.variable} ${shipporiMincho.variable} ${yujiSyuku.variable} antialiased`}
       >
-        <div className="min-h-screen bg-[url('/images/bg/shoji2.jpg')] bg-cover bg-center flex items-center justify-center">
-          {/* 컨텐츠 블럭 */}
-          <main className="w-[90%] md:w-[70%] h-screen bg-[url('/images/bg/hanji2.jpg')]">
-            {children}
-            <Toaster />
-          </main>
-          <SizeChecker />
-        </div>
+        <AuthSessionProvider>
+          <div className="min-h-screen bg-[url('/images/bg/shoji2.jpg')] bg-cover bg-center flex items-center justify-center">
+            {/* 컨텐츠 블럭 */}
+            <main className="w-[90%] md:w-[70%] h-screen bg-[url('/images/bg/hanji2.jpg')]">
+              {children}
+              <Toaster />
+            </main>
+            <SizeChecker />
+          </div>
+        </AuthSessionProvider>
       </body>
     </html>
   );
