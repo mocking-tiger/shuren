@@ -4,10 +4,9 @@ import Link from "next/link";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { ErrorResponse } from "@/types/types";
-import { signIn } from "next-auth/react";
 
 type LoginFormData = {
   email: string;
