@@ -2,8 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
 
 const LoginChecker = () => {
   const { data: session, status } = useSession();
