@@ -6,6 +6,7 @@ import { useState } from "react";
 const QueryProvider = ({ children }: { children: React.ReactNode }) => {
   // QueryClient를 useState내부에서 만드는 이유: 컴포넌트 리렌더링 시 초기화 방지
   const [queryClient] = useState(
+    // 객체를 매번 생성하지 않도록 lazy initialization
     () =>
       new QueryClient({
         defaultOptions: {
