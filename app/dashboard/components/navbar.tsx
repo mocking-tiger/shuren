@@ -8,13 +8,14 @@ const Navbar = () => {
   const { data: session } = useSession();
 
   useEffect(() => {
+    if (!session) return;
+
     const getUserProgress = async () => {
-      if (session) {
-        const userId = session.user.id;
-        const response = await apiGet(`/user-progress?userId=${userId}`);
-        console.log(response.data);
-      }
+      const userId = session.user.id;
+      const response = await apiGet(`/user-progress?userId=${userId}`);
+      console.log(response.data);
     };
+
     getUserProgress();
   }, [session]);
 

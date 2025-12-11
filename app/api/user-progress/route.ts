@@ -1,17 +1,31 @@
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
 import { PrismaClient } from "@prisma/client";
-import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 const prisma = new PrismaClient();
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: "인증되지 않은 사용자입니다." },
+        { status: 401 }
+      );
+    }
+    const userId = Number(session.user.id);
     const userProgress = await prisma.userProgress.findUnique({
       where: {
-        userId: Number(userId),
+        userId: userId,
       },
     });
+    if (!userProgress) {
+      return NextResponse.json(
+        { error: "사용자 진도 정보를 찾을 수 없습니다." },
+        { status: 404 }
+      );
+    }
     return NextResponse.json(userProgress, { status: 200 });
   } catch (error) {
     console.error(error);
