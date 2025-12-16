@@ -2,10 +2,11 @@
 
 import Input from "@/app/components/ui/Input";
 import Button from "@/app/components/ui/Button";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { getUserProgress } from "@/lib/api/user-progress-api";
-import { useForm } from "react-hook-form";
 
 type ProfileFormData = {
   name: string;
@@ -15,27 +16,31 @@ type ProfileFormData = {
 
 const ProfilePage = () => {
   const { data: session, status } = useSession();
-  const {
-    data: userProgress,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: userProgress, isLoading } = useQuery({
     queryKey: ["userProgress"],
     queryFn: getUserProgress,
     enabled: status === "authenticated",
   });
-
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
     getValues,
   } = useForm<ProfileFormData>();
 
-  const handleSaveProfile = async () => {};
+  useEffect(() => {
+    if (session && session.user.name) {
+      reset({
+        name: session.user.name,
+      });
+    }
+  }, [session, reset]);
 
-  console.log(session);
-  console.log(userProgress);
+  const handleSaveProfile = async (data: ProfileFormData) => {
+    console.log(data);
+  };
+
   return (
     <div>
       <form
