@@ -2,21 +2,11 @@
 
 import Link from "next/link";
 import Button from "@/app/components/ui/Button";
-import { useQuery } from "@tanstack/react-query";
-import { signOut, useSession } from "next-auth/react";
-import { getUserProgress } from "@/lib/api/user-progress-api";
+import { signOut } from "next-auth/react";
+import { useUserData } from "@/hooks/use-user-data";
 
 const Navbar = () => {
-  const { data: session, status } = useSession();
-  const {
-    data: userProgress,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["userProgress"],
-    queryFn: getUserProgress,
-    enabled: status === "authenticated",
-  });
+  const { session, userProgress, isLoading, error } = useUserData();
 
   return (
     <div className="w-full h-14 px-4 absolute top-0 left-0 bg-white flex justify-between items-center shadow-md">

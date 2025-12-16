@@ -4,9 +4,7 @@ import Input from "@/app/components/ui/Input";
 import Button from "@/app/components/ui/Button";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/react";
-import { useQuery } from "@tanstack/react-query";
-import { getUserProgress } from "@/lib/api/user-progress-api";
+import { useUserData } from "@/hooks/use-user-data";
 
 type ProfileFormData = {
   name: string;
@@ -15,12 +13,7 @@ type ProfileFormData = {
 };
 
 const ProfilePage = () => {
-  const { data: session, status } = useSession();
-  const { data: userProgress, isLoading } = useQuery({
-    queryKey: ["userProgress"],
-    queryFn: getUserProgress,
-    enabled: status === "authenticated",
-  });
+  const { session, userProgress, isLoading, error } = useUserData();
   const {
     register,
     handleSubmit,
