@@ -1,9 +1,13 @@
 "use client";
 
+import toast from "react-hot-toast";
 import Input from "@/app/components/ui/Input";
 import Button from "@/app/components/ui/Button";
 import { useEffect } from "react";
+import { apiPut } from "@/lib/axios";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { ErrorResponse } from "@/types/types";
 import { useUserData } from "@/hooks/use-user-data";
 
 type ProfileFormData = {
@@ -13,6 +17,7 @@ type ProfileFormData = {
 };
 
 const ProfilePage = () => {
+  const router = useRouter();
   const { session, userProgress, isLoading, error } = useUserData();
   const {
     register,
@@ -31,7 +36,18 @@ const ProfilePage = () => {
   }, [session, reset]);
 
   const handleSaveProfile = async (data: ProfileFormData) => {
-    console.log(data);
+    try {
+      const response = await apiPut("/profile", data);
+      if (!response || !response.data) {
+        console.error("handleSaveProfile 에러");
+        return;
+      }
+      toast.success("프로필이 수정되었습니다.");
+      router.push("/dashboard");
+    } catch (e) {
+      const error = e as ErrorResponse;
+      toast.error(error.response.data.error);
+    }
   };
 
   return (
