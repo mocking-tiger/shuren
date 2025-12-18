@@ -18,7 +18,7 @@ type ProfileFormData = {
 
 const ProfilePage = () => {
   const router = useRouter();
-  const { session, userProgress, isLoading, error } = useUserData();
+  const { userData, isLoading, error } = useUserData();
   const {
     register,
     handleSubmit,
@@ -28,16 +28,16 @@ const ProfilePage = () => {
   } = useForm<ProfileFormData>();
 
   useEffect(() => {
-    if (session && session.user.name) {
+    if (userData && userData.name) {
       reset({
-        name: session.user.name,
+        name: userData.name,
       });
     }
-  }, [session, reset]);
+  }, [userData, reset]);
 
   const handleSaveProfile = async (data: ProfileFormData) => {
     try {
-      const response = await apiPut("/profile", data);
+      const response = await apiPut("/user", data);
       if (!response || !response.data) {
         console.error("handleSaveProfile 에러");
         return;

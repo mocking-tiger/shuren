@@ -1,22 +1,22 @@
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-import { getUserProgress } from "@/lib/api/user-progress-api";
+import { getUser } from "@/lib/api/user-api";
 
 export const useUserData = () => {
   const { data: session, status } = useSession();
   const {
-    data: userProgress,
+    data: userData,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["userProgress"],
-    queryFn: getUserProgress,
+    queryKey: ["userData"],
+    queryFn: getUser,
     enabled: status === "authenticated",
   });
 
   return {
     session,
-    userProgress,
+    userData,
     isLoading,
     error,
   };
