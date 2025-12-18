@@ -4,13 +4,13 @@ import toast from "react-hot-toast";
 import Input from "@/app/components/ui/Input";
 import Button from "@/app/components/ui/Button";
 import { useEffect } from "react";
-import { apiPut } from "@/lib/axios";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { ErrorResponse } from "@/types/types";
+import { updateUser } from "@/lib/api/user-api";
 import { useUserData } from "@/hooks/use-user-data";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-type ProfileFormData = {
+export type ProfileFormData = {
   name: string;
   password: string;
   passwordConfirm: string;
@@ -18,6 +18,7 @@ type ProfileFormData = {
 
 const ProfilePage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { userData, isLoading, error } = useUserData();
   const {
     register,
@@ -35,19 +36,20 @@ const ProfilePage = () => {
     }
   }, [userData, reset]);
 
-  const handleSaveProfile = async (data: ProfileFormData) => {
-    try {
-      const response = await apiPut("/user", data);
-      if (!response || !response.data) {
-        console.error("handleSaveProfile 에러");
-        return;
-      }
+  const mutation = useMutation({
+    mutationFn: updateUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userData"] });
       toast.success("프로필이 수정되었습니다.");
       router.push("/dashboard");
-    } catch (e) {
-      const error = e as ErrorResponse;
-      toast.error(error.response.data.error);
-    }
+    },
+    onError: () => {
+      toast.error("프로필 수정에 실패했습니다.");
+    },
+  });
+
+  const handleSaveProfile = async (data: ProfileFormData) => {
+    mutation.mutate(data);
   };
 
   return (
