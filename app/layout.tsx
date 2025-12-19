@@ -1,4 +1,9 @@
+import "./globals.css";
+import SizeChecker from "./components/ui/SizeChecker";
+import QueryProvider from "./components/providers/QueryProvider";
+import AuthSessionProvider from "./components/providers/SessionProvider";
 import type { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
 import {
   Geist,
   Geist_Mono,
@@ -6,11 +11,6 @@ import {
   Shippori_Mincho,
   Yuji_Syuku,
 } from "next/font/google";
-import "./globals.css";
-import SizeChecker from "./components/ui/SizeChecker";
-import { Toaster } from "react-hot-toast";
-import AuthSessionProvider from "./components/providers/SessionProvider";
-import QueryProvider from "./components/providers/QueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
