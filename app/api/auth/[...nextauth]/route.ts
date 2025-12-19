@@ -51,7 +51,6 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-
   // 인증 페이지 경로 설정
   pages: {
     signIn: "/", // 로그인 필요 시 여기로 리다이렉트
@@ -59,6 +58,8 @@ export const authOptions: NextAuthOptions = {
   // 세션 저장 방식 선택
   session: {
     strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 24시간
+    updateAge: 60 * 60, // 1시간
   },
   callbacks: {
     // jwt 토큰 생성/갱신 시 실행

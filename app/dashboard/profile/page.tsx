@@ -19,7 +19,7 @@ export type ProfileFormData = {
 const ProfilePage = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { userData, isLoading, error } = useUserData();
+  const { userData } = useUserData();
   const {
     register,
     handleSubmit,
@@ -36,13 +36,17 @@ const ProfilePage = () => {
     }
   }, [userData, reset]);
 
+  // useMutation(데이터 변경)
   const mutation = useMutation({
+    // 데이터 변경 함수
     mutationFn: updateUser,
+    // 데이터 변경 성공 시
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userData"] });
+      queryClient.invalidateQueries({ queryKey: ["userData"] }); // 캐시 무효화
       toast.success("프로필이 수정되었습니다.");
       router.push("/dashboard");
     },
+    // 데이터 변경 실패 시
     onError: () => {
       toast.error("프로필 수정에 실패했습니다.");
     },
