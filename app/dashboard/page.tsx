@@ -1,14 +1,20 @@
-import LoginChecker from "../components/auth/LoginChecker";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+"use client";
 
-const DashboardPage = async () => {
-  const session = await getServerSession(authOptions);
-  console.log(session);
+import LoginChecker from "../components/auth/LoginChecker";
+import { useUserData } from "@/hooks/use-user-data";
+import GradeBox from "./components/GradeBox";
+
+const DashboardPage = () => {
+  const { userData } = useUserData();
+  console.log(userData);
   return (
     <div>
       <LoginChecker />
-      <h1>Dashboard</h1>
+      <div className="px-4 md:px-32 py-4 md:py-16 flex flex-col gap-4 overflow-y-auto">
+        {Array.from({ length: 9 }).map((_, index) => (
+          <GradeBox key={index} grade={9 - index} />
+        ))}
+      </div>
     </div>
   );
 };

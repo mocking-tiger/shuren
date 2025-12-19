@@ -60,8 +60,8 @@ export default function RootLayout({
       >
         <QueryProvider>
           <AuthSessionProvider>
-            <div className="min-h-screen bg-[url('/images/bg/shoji2.jpg')] bg-cover bg-center flex items-center justify-center">
-              <main className="w-[90%] md:w-[70%] h-screen bg-[url('/images/bg/hanji2.jpg')]">
+            <div className="bg-[url('/images/bg/shoji2.jpg')] bg-cover bg-center flex items-center justify-center">
+              <main className="w-[90%] md:w-[70%] h-screen bg-[url('/images/bg/hanji2.jpg')] overflow-y-auto">
                 {children}
                 <Toaster />
               </main>
