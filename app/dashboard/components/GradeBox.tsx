@@ -2,18 +2,26 @@ const GradeBox = ({
   grade,
   bg,
   positionClass,
+  isLocked = true,
 }: {
   grade: number;
   bg: string;
   positionClass: string;
+  isLocked: boolean;
 }) => {
   return (
     <div
-      className={`w-full p-4 md:p-10 rounded-lg cursor-pointer hover:translate-y-[-5px] shadow-md transition-transform duration-300 relative overflow-hidden`}
+      className={`w-full p-4 md:p-10 rounded-lg relative overflow-hidden ${
+        isLocked
+          ? "cursor-not-allowed"
+          : "cursor-pointer md:hover:translate-x-[-15px] shadow-md transition-transform duration-300 "
+      }`}
     >
       {/* 배경 이미지 레이어 */}
       <div
-        className={`absolute inset-0 rounded-lg ${positionClass}`}
+        className={`absolute inset-0 rounded-lg ${positionClass} ${
+          isLocked ? "opacity-30" : "opacity-100"
+        }`}
         style={{
           backgroundImage: `url(${bg})`,
           backgroundSize: "cover",
@@ -32,6 +40,11 @@ const GradeBox = ({
       <h1 className="text-2xl md:text-4xl font-bold relative z-10">
         {grade}급
       </h1>
+      {isLocked && (
+        <p className="text-sm text-red-500 absolute bottom-1 right-1">
+          승급을 통해 잠금을 해제하세요.
+        </p>
+      )}
     </div>
   );
 };
