@@ -1,10 +1,8 @@
 import bcrypt from "bcrypt";
+import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
-
-const prisma = new PrismaClient();
 
 export async function GET() {
   try {

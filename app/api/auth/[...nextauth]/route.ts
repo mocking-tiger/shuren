@@ -1,9 +1,7 @@
 import bcrypt from "bcrypt";
 import NextAuth, { NextAuthOptions } from "next-auth"; // 인증 설정을 받아서 handler 생성
 import CredentialsProvider from "next-auth/providers/credentials"; // 이메일/비밀번호 인증 Provider - NextAuth가 제공하는 여러 Provider 중 하나
-import { PrismaClient } from "@prisma/client"; // DB 접근용
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma"; // DB 접근용
 
 // GET, POST 요청을 처리 함수
 export const authOptions: NextAuthOptions = {
