@@ -14,7 +14,7 @@ const GradeBox = ({
       className={`w-full p-4 md:p-10 rounded-lg relative overflow-hidden ${
         isLocked
           ? "cursor-not-allowed"
-          : "cursor-pointer md:hover:translate-x-[-15px] shadow-md transition-transform duration-300 "
+          : "cursor-pointer md:hover:translate-x-[-15px] shadow-md transition-transform duration-300"
       }`}
     >
       {/* 배경 이미지 레이어 */}

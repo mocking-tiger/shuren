@@ -1,3 +1,4 @@
+import Link from "next/link";
 import GradeBox from "./components/GradeBox";
 import { getServerUser } from "@/lib/api/server-user-api";
 
@@ -21,13 +22,15 @@ const DashboardPage = async () => {
     <div>
       <div className="px-4 md:px-32 py-4 md:py-16 flex flex-col gap-4 overflow-y-auto">
         {Array.from({ length: 9 }).map((_, index) => (
-          <GradeBox
-            key={index}
-            grade={9 - index}
-            bg={bgConfigs[index].url}
-            positionClass={bgConfigs[index].positionClass}
-            isLocked={9 - index < currentGrade}
-          />
+          <Link href={`/dashboard/${9 - index}`} key={index}>
+            <GradeBox
+              key={index}
+              grade={9 - index}
+              bg={bgConfigs[index].url}
+              positionClass={bgConfigs[index].positionClass}
+              isLocked={9 - index < currentGrade}
+            />
+          </Link>
         ))}
       </div>
     </div>
