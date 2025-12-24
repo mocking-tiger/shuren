@@ -1,8 +1,5 @@
 import GradeBox from "./components/GradeBox";
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
 import { getServerUser } from "@/lib/api/server-user-api";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const bgConfigs = [
   { url: "/images/bg/sprout.jpg", positionClass: "bg-center" },
@@ -17,16 +14,9 @@ const bgConfigs = [
 ];
 
 const DashboardPage = async () => {
-  // 서버 측에서 인증 확인
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    redirect("/"); // 로그인되지 않으면 홈으로 리다이렉트
-  }
-
   const userData = await getServerUser();
   const currentGrade = userData?.userProgress?.currentGrade ?? 9;
-  console.log(userData);
+
   return (
     <div>
       <div className="px-4 md:px-32 py-4 md:py-16 flex flex-col gap-4 overflow-y-auto">
