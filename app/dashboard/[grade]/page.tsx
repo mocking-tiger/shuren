@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 
 const DashboardGradePage = () => {
   const { grade } = useParams();
-  console.log({ grade });
+
   return (
     <div>
       <div className="px-4 md:px-32 py-4 md:py-16 flex flex-col gap-4 overflow-y-auto">
