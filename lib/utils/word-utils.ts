@@ -7,7 +7,7 @@ export const getWordRange = (grade: number) => {
   };
 };
 
-export const runTTS = (kana: string) => {
+export const runTTS = (kana: string, speed: number = 0.3) => {
   // Web Speech API 사용
   const utterance = new SpeechSynthesisUtterance(kana);
   utterance.lang = "ja-JP"; // 일본어 설정
@@ -26,7 +26,7 @@ export const runTTS = (kana: string) => {
     utterance.voice = japaneseVoice;
   }
 
-  utterance.rate = 0.3; // 속도 (0.1 ~ 10, 기본 1)
+  utterance.rate = speed; // 속도 (0.1 ~ 10, 기본 1)
   utterance.pitch = 1; // 음높이 (0 ~ 2, 기본 1)
 
   window.speechSynthesis.speak(utterance);

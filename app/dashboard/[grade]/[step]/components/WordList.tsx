@@ -92,7 +92,7 @@ const WordList = ({ words }: { words: Word[] }) => {
                 className="w-10 h-10 absolute top-0 right-6"
                 onClick={(e) => {
                   e.stopPropagation();
-                  runTTS(words[currentIndex].exampleKana);
+                  runTTS(words[currentIndex].exampleKana, 0.5);
                 }}
               />
             </div>
