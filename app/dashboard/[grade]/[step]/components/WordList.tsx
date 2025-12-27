@@ -77,7 +77,7 @@ const WordList = ({ words }: { words: Word[] }) => {
             <div className="text-2xl md:text-4xl">
               {words[currentIndex].wordKana}
             </div>
-            <div className="text-xl md:text-4xl">
+            <div className="text-xl md:text-2xl font-gowun">
               {words[currentIndex].wordMeaning}
             </div>
 
@@ -97,7 +97,7 @@ const WordList = ({ words }: { words: Word[] }) => {
               />
             </div>
 
-            <div className="text-xl md:text-4xl">
+            <div className="text-xl md:text-2xl font-gowun">
               {words[currentIndex].exampleMeaning}
             </div>
           </div>
