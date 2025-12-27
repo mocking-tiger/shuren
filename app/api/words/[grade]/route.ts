@@ -18,7 +18,7 @@ export async function GET(
       },
     });
 
-    return NextResponse.json(words);
+    return NextResponse.json(words, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
