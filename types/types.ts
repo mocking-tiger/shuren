@@ -53,3 +53,12 @@ export interface ErrorResponse {
     status: number;
   };
 }
+
+// ================================================
+// 프론트엔드 인터페이스
+// ================================================
+export interface ExamData {
+  grade: number;
+  step: number;
+  isPromotion: boolean;
+}

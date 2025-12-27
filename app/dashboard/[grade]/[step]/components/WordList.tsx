@@ -1,11 +1,15 @@
 "use client";
-import { runTTS } from "@/lib/utils/word-utils";
 /* eslint-disable @next/next/no-img-element */
 
-import { Word } from "@prisma/client";
+import Button from "@/app/components/ui/Button";
 import { useState } from "react";
+import { Word } from "@prisma/client";
+import { useParams, useRouter } from "next/navigation";
+import { runTTS } from "@/lib/utils/word-utils";
 
 const WordList = ({ words }: { words: Word[] }) => {
+  const router = useRouter();
+  const { grade, step } = useParams();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isToggled, setIsToggled] = useState(false);
 
@@ -19,6 +23,18 @@ const WordList = ({ words }: { words: Word[] }) => {
     const newIndex = direction === "prev" ? currentIndex - 1 : currentIndex + 1;
     setIsToggled(false);
     setCurrentIndex(newIndex);
+  };
+
+  const handleExamClick = () => {
+    sessionStorage.setItem(
+      "examData",
+      JSON.stringify({
+        grade: Number(grade),
+        step: Number(step),
+        isPromotion: false,
+      })
+    );
+    router.push("/dashboard/exam");
   };
 
   if (!words.length) return <div>단어 정보를 불러오지 못했습니다.</div>;
@@ -103,6 +119,15 @@ const WordList = ({ words }: { words: Word[] }) => {
           </div>
         )}
       </div>
+
+      {/* 시험 버튼 */}
+      <Button
+        type="button"
+        className="w-20! absolute bottom-6"
+        onClick={handleExamClick}
+      >
+        시험
+      </Button>
     </div>
   );
 };
