@@ -1,16 +1,17 @@
 "use client";
 
-import { fetchWordsAtExam } from "@/lib/api/word-api";
-import { ExamData } from "@/types/types";
 import { Word } from "@prisma/client";
+import { ExamData } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useMeanings } from "@/hooks/use-meanings";
+import { fetchWordsAtExam } from "@/lib/api/word-api";
 
 const ExamPage = () => {
   const router = useRouter();
+  const { data: meanings } = useMeanings();
   const [examData, setExamData] = useState<ExamData>();
   const [words, setWords] = useState<Word[]>([]);
-  const [meanings, setMeanings] = useState<string[]>([]);
 
   // 메타데이터 받아오기
   useEffect(() => {

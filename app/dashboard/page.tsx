@@ -2,7 +2,9 @@
 
 import GradeBox from "./components/GradeBox";
 import { useEffect } from "react";
+import { fetchMeanings } from "@/lib/api/word-api";
 import { useUserData } from "@/hooks/use-user-data";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const bgConfigs = [
@@ -22,7 +24,9 @@ const DashboardPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentGrade = userData?.userProgress?.currentGrade ?? 9;
+  const queryClient = useQueryClient();
 
+  // 비정상적 접근 처리
   useEffect(() => {
     const error = searchParams.get("error");
     if (error === "grade_locked") {
@@ -32,6 +36,14 @@ const DashboardPage = () => {
       router.push("/dashboard");
     }
   }, [searchParams, router, currentGrade]);
+
+  // 뜻 목록 가져오기
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: ["meanings"],
+      queryFn: fetchMeanings,
+    });
+  }, [queryClient]);
 
   return (
     <div>
