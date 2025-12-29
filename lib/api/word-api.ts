@@ -17,3 +17,8 @@ export const fetchWordsAtExam = async (
   });
   return response.data;
 };
+
+export const fetchMeanings = async () => {
+  const response = await apiGet(`/words/meanings`);
+  return response.data;
+};

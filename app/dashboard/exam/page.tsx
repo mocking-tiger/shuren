@@ -10,6 +10,7 @@ const ExamPage = () => {
   const router = useRouter();
   const [examData, setExamData] = useState<ExamData>();
   const [words, setWords] = useState<Word[]>([]);
+  const [meanings, setMeanings] = useState<string[]>([]);
 
   // 메타데이터 받아오기
   useEffect(() => {
