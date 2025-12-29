@@ -28,7 +28,7 @@ const ExamPage = () => {
     getExamData();
   }, [router]);
 
-  // 단어 목록 가져오기
+  // 출제 단어 목록 가져오기
   useEffect(() => {
     if (!examData) return;
 
@@ -38,7 +38,7 @@ const ExamPage = () => {
         examData.step,
         examData.isPromotion
       );
-      console.log(response);
+      setWords(response);
     };
     getWords();
   }, [examData]);

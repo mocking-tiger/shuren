@@ -1,9 +1,25 @@
+import { prisma } from "@/lib/prisma";
+import { Word } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
     const { grade, step, isPromotion } = await request.json();
-    return NextResponse.json({ grade, step, isPromotion }, { status: 200 });
+
+    let words: Word[] = [];
+
+    if (isPromotion) {
+      words = await prisma.word.findMany({
+        skip: (9 - grade) * 27,
+        take: 27,
+      });
+    } else {
+      words = await prisma.word.findMany({
+        skip: (9 - grade) * 27 + (step - 1) * 9,
+        take: 9,
+      });
+    }
+    return NextResponse.json(words, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
