@@ -7,12 +7,14 @@ import { useEffect, useState } from "react";
 import { useMeanings } from "@/hooks/use-meanings";
 import { fetchWordsAtExam } from "@/lib/api/word-api";
 import WordListForExam from "./components/WordListForExam";
+import { shuffle } from "@/lib/utils/exam-utils";
 
 const ExamPage = () => {
   const router = useRouter();
   const { data: meanings } = useMeanings();
   const [examData, setExamData] = useState<ExamData>();
   const [words, setWords] = useState<Word[]>([]);
+  const [examWords, setExamWords] = useState<Word[]>([]);
 
   // 메타데이터 받아오기
   useEffect(() => {
@@ -44,11 +46,25 @@ const ExamPage = () => {
     getWords();
   }, [examData]);
 
+  // 시험용 배열로 가공
+  useEffect(() => {
+    if (!words.length || !meanings?.length) return;
+    const func = () => {
+      const newExamWords = words.map((word, index) => ({
+        ...word,
+        choice: shuffle([word.wordMeaning, ...shuffle(meanings).slice(0, 3)]),
+      }));
+      setExamWords(newExamWords);
+    };
+    func();
+  }, [words, meanings]);
+
   if (!examData) return <div>Loading...</div>;
+  console.log(examWords);
 
   return (
     <div className="h-[calc(100vh-64px)] flex justify-center items-center">
-      <WordListForExam words={words} />
+      <WordListForExam words={shuffle(examWords)} />
     </div>
   );
 };
