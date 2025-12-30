@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useMeanings } from "@/hooks/use-meanings";
 import { fetchWordsAtExam } from "@/lib/api/word-api";
+import WordListForExam from "./components/WordListForExam";
 
 const ExamPage = () => {
   const router = useRouter();
@@ -46,12 +47,8 @@ const ExamPage = () => {
   if (!examData) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h1>
-        {examData.grade}급 {examData.step}단계 시험
-        <br />
-        {examData.isPromotion ? "승급 시험" : "일반 시험"}
-      </h1>
+    <div className="h-[calc(100vh-64px)] flex justify-center items-center">
+      <WordListForExam words={words} />
     </div>
   );
 };
