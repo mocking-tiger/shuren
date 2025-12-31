@@ -10,8 +10,10 @@ import { runTTS } from "@/lib/utils/word-utils";
 export type WordWithChoice = Word & { choice: string[] };
 
 const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
+  const router = useRouter();
   const { grade, step } = useParams();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isCorrect, setIsCorrect] = useState({ word: "", isCorrect: false });
 
   const handleIndexChange = (direction: "prev" | "next") => {
     if (currentIndex === 0 && direction === "prev") {
@@ -24,28 +26,28 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
     setCurrentIndex(newIndex);
   };
 
-  const handleClickAnswer = () => {};
+  const handleClickAnswer = (choice: string) => {
+    if (choice === words[currentIndex].wordMeaning) {
+      setIsCorrect({ word: choice, isCorrect: true });
+      setTimeout(() => {
+        setIsCorrect({ word: "", isCorrect: false });
+        handleIndexChange("next");
+      }, 1000);
+    } else {
+      setIsCorrect({ word: choice, isCorrect: false });
+      setTimeout(() => {
+        setIsCorrect({ word: "", isCorrect: false });
+        router.push("/dashboard/exam/defeat");
+      }, 1000);
+    }
+  };
 
-  if (!words.length) return <div>단어 정보를 불러오지 못했습니다.</div>;
+  if (!words.length) return <div>단어 정보를 불러오는 중</div>;
   return (
     <div className="w-full h-full flex justify-center items-center relative">
       {/* 인덱스 표시 */}
       <div className="absolute top-6 text-xl font-bold">
         {currentIndex + 1} / {words.length}
-      </div>
-
-      {/* 이전, 다음 */}
-      <div
-        className="p-2 absolute top-[45%] left-1 md:left-6 text-2xl font-bold cursor-pointer"
-        onClick={() => handleIndexChange("prev")}
-      >
-        {"<"}
-      </div>
-      <div
-        className="p-2 absolute top-[45%] right-1 md:right-6 text-2xl font-bold cursor-pointer"
-        onClick={() => handleIndexChange("next")}
-      >
-        {">"}
       </div>
 
       {/* 단어 박스 */}
@@ -75,7 +77,14 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
             <Button
               key={index}
               type="button"
-              className="text-xl md:text-2xl font-bold bg-white text-black!"
+              className={`text-xl md:text-2xl font-bold bg-white text-black! ${
+                isCorrect.word === choice && isCorrect.isCorrect
+                  ? "bg-green-500! text-white!"
+                  : isCorrect.word === choice && !isCorrect.isCorrect
+                  ? "bg-red-500! text-white!"
+                  : "bg-white"
+              }`}
+              onClick={() => handleClickAnswer(choice)}
             >
               {choice}
             </Button>
