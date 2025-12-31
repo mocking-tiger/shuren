@@ -60,7 +60,6 @@ const ExamPage = () => {
   }, [words, meanings]);
 
   if (!examData) return <div>Loading...</div>;
-  console.log(examWords);
 
   return (
     <div className="h-[calc(100vh-64px)] flex justify-center items-center">

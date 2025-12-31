@@ -4,14 +4,13 @@
 import Button from "@/app/components/ui/Button";
 import { useState } from "react";
 import { Word } from "@prisma/client";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { runTTS } from "@/lib/utils/word-utils";
 
 export type WordWithChoice = Word & { choice: string[] };
 
 const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
   const router = useRouter();
-  const { grade, step } = useParams();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isCorrect, setIsCorrect] = useState({ word: "", isCorrect: false });
 
@@ -26,11 +25,20 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
     setCurrentIndex(newIndex);
   };
 
+  const handleVictory = () => {
+    router.push("/dashboard/exam/victory");
+  };
+
   const handleClickAnswer = (choice: string) => {
     if (choice === words[currentIndex].wordMeaning) {
       setIsCorrect({ word: choice, isCorrect: true });
       setTimeout(() => {
         setIsCorrect({ word: "", isCorrect: false });
+        if (currentIndex === words.length - 1) {
+          handleVictory();
+        } else {
+          handleIndexChange("next");
+        }
         handleIndexChange("next");
       }, 1000);
     } else {
@@ -67,6 +75,11 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
           />
         </div>
 
+        {isCorrect.word === words[currentIndex].wordMeaning && (
+          <span className="absolute top-[120px] md:top-[90px] md:text-4xl">
+            {words[currentIndex].wordKana}
+          </span>
+        )}
         <h1 className="text-4xl md:text-[120px] font-bold relative bottom-[50px] md:bottom-[80px]">
           {words[currentIndex].word}
         </h1>
