@@ -1,13 +1,13 @@
 "use client";
 
+import WordListForExam, { WordWithChoice } from "./components/WordListForExam";
 import { Word } from "@prisma/client";
 import { ExamData } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { shuffle } from "@/lib/utils/exam-utils";
 import { useMeanings } from "@/hooks/use-meanings";
 import { fetchWordsAtExam } from "@/lib/api/word-api";
-import WordListForExam from "./components/WordListForExam";
-import { shuffle } from "@/lib/utils/exam-utils";
 
 const ExamPage = () => {
   const router = useRouter();
@@ -50,7 +50,7 @@ const ExamPage = () => {
   useEffect(() => {
     if (!words.length || !meanings?.length) return;
     const func = () => {
-      const newExamWords = words.map((word, index) => ({
+      const newExamWords = words.map((word) => ({
         ...word,
         choice: shuffle([word.wordMeaning, ...shuffle(meanings).slice(0, 3)]),
       }));
@@ -64,7 +64,7 @@ const ExamPage = () => {
 
   return (
     <div className="h-[calc(100vh-64px)] flex justify-center items-center">
-      <WordListForExam words={shuffle(examWords)} />
+      <WordListForExam words={shuffle(examWords as WordWithChoice[])} />
     </div>
   );
 };
