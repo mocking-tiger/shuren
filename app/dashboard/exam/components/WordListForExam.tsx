@@ -1,6 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
+import toast from "react-hot-toast";
 import Button from "@/app/components/ui/Button";
 import { useState } from "react";
 import { Word } from "@prisma/client";
@@ -8,12 +9,24 @@ import { useRouter } from "next/navigation";
 import { runTTS } from "@/lib/utils/word-utils";
 import { useUserData } from "@/hooks/use-user-data";
 import { updateUserProgress } from "@/lib/api/exam-api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export type WordWithChoice = Word & { choice: string[] };
 
 const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { userData } = useUserData();
+  const { mutate } = useMutation({
+    mutationFn: updateUserProgress,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userData"] });
+      router.push("/dashboard/exam/victory");
+    },
+    onError: () => {
+      toast.error("프로그레스 업데이트에 실패했습니다.");
+    },
+  });
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isCorrect, setIsCorrect] = useState({ word: "", isCorrect: false });
 
@@ -29,12 +42,10 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
   };
 
   const handleVictory = async () => {
-    const response = await updateUserProgress({
+    mutate({
       ...userData.userProgress,
       isPromotion: false,
     });
-    console.log(response);
-    router.push("/dashboard/exam/victory");
   };
 
   const handleClickAnswer = (choice: string) => {
