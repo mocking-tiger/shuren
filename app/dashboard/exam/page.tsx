@@ -52,7 +52,12 @@ const ExamPage = () => {
     const func = () => {
       const newExamWords = words.map((word) => ({
         ...word,
-        choice: shuffle([word.wordMeaning, ...shuffle(meanings).slice(0, 3)]),
+        choice: shuffle([
+          word.wordMeaning,
+          ...shuffle(meanings)
+            .filter((meaning) => meaning !== word.wordMeaning)
+            .slice(0, 3),
+        ]),
       }));
       setExamWords(newExamWords);
     };

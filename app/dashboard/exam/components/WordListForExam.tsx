@@ -6,14 +6,17 @@ import { useState } from "react";
 import { Word } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { runTTS } from "@/lib/utils/word-utils";
+import { useUserData } from "@/hooks/use-user-data";
 
 export type WordWithChoice = Word & { choice: string[] };
 
 const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
   const router = useRouter();
+  const { userData } = useUserData();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isCorrect, setIsCorrect] = useState({ word: "", isCorrect: false });
 
+  console.log(userData);
   const handleIndexChange = (direction: "prev" | "next") => {
     if (currentIndex === 0 && direction === "prev") {
       return;

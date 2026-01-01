@@ -1,8 +1,8 @@
 "use client";
 
-import { useWords } from "@/hooks/use-words";
-import { useParams } from "next/navigation";
 import WordList from "./components/WordList";
+import { useParams } from "next/navigation";
+import { useWords } from "@/hooks/use-words";
 
 const DashboardGradeStepPage = () => {
   const { grade, step } = useParams();
