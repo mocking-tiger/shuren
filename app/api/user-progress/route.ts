@@ -3,22 +3,40 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(request: NextRequest) {
   try {
-    const oldProgress = await request.json();
-    const isPromotion = oldProgress.isPromotion;
-    if (isPromotion) {
+    const body = await request.json();
+    const { userProgress, examInfo } = body;
+
+    if (userProgress.currentGrade < examInfo.grade) {
+      return NextResponse.json(
+        { message: "이미 클리어 한 단계니까 업데이트 안할게" },
+        { status: 200 }
+      );
+    } else if (userProgress.currentGrade > examInfo.grade) {
+      return NextResponse.json(
+        { message: "잘못된 접근이니까 업데이트 안할게" },
+        { status: 200 }
+      );
+    } else if (userProgress.exp >= examInfo.step) {
+      return NextResponse.json(
+        { message: "이미 클리어 한 단계니까 업데이트 안할게" },
+        { status: 200 }
+      );
+    }
+
+    if (examInfo.isPromotion) {
       await prisma.userProgress.update({
-        where: { id: oldProgress.id },
+        where: { id: userProgress.id },
         data: {
-          currentGrade: oldProgress.currentGrade - 1,
+          currentGrade: examInfo.grade - 1,
           exp: 0,
-          isMaster: oldProgress.currentGrade === 1 ? true : false,
+          isMaster: examInfo.grade === 1 ? true : false,
         },
       });
     } else {
       await prisma.userProgress.update({
-        where: { id: oldProgress.id },
+        where: { id: userProgress.id },
         data: {
-          exp: oldProgress.exp === 0 ? 1 : oldProgress.exp === 1 ? 2 : 3,
+          exp: userProgress.exp === 0 ? 1 : userProgress.exp === 1 ? 2 : 3,
         },
       });
     }

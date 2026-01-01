@@ -42,9 +42,14 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
   };
 
   const handleVictory = async () => {
+    const examData = JSON.parse(sessionStorage.getItem("examData") || "{}");
     mutate({
-      ...userData.userProgress,
-      isPromotion: false,
+      userProgress: userData.userProgress,
+      examInfo: {
+        grade: examData.grade,
+        step: examData.step,
+        isPromotion: examData.isPromotion,
+      },
     });
   };
 
