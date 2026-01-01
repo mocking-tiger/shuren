@@ -29,7 +29,10 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
   };
 
   const handleVictory = async () => {
-    const response = await updateUserProgress(userData.userProgress);
+    const response = await updateUserProgress({
+      ...userData.userProgress,
+      isPromotion: false,
+    });
     console.log(response);
     router.push("/dashboard/exam/victory");
   };
