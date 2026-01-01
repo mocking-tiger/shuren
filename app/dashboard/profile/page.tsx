@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { updateUser } from "@/lib/api/user-api";
 import { useUserData } from "@/hooks/use-user-data";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import ProgressBar from "../components/ProgressBar";
 
 export type ProfileFormData = {
   name: string;
@@ -103,6 +104,14 @@ const ProfilePage = () => {
           {isSubmitting ? "저장 중..." : "저장"}
         </Button>
       </form>
+      <div className="w-[90%] md:w-[50%] mt-5 md:mt-20 mx-auto flex flex-col items-center justify-center gap-2 md:gap-4">
+        {userData?.userProgress && (
+          <ProgressBar
+            userProgress={userData.userProgress}
+            isPlayAnimation={false}
+          />
+        )}
+      </div>
     </div>
   );
 };
