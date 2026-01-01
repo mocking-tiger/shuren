@@ -7,6 +7,7 @@ import { Word } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { runTTS } from "@/lib/utils/word-utils";
 import { useUserData } from "@/hooks/use-user-data";
+import { updateUserProgress } from "@/lib/api/exam-api";
 
 export type WordWithChoice = Word & { choice: string[] };
 
@@ -16,7 +17,6 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isCorrect, setIsCorrect] = useState({ word: "", isCorrect: false });
 
-  console.log(userData);
   const handleIndexChange = (direction: "prev" | "next") => {
     if (currentIndex === 0 && direction === "prev") {
       return;
@@ -28,7 +28,9 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
     setCurrentIndex(newIndex);
   };
 
-  const handleVictory = () => {
+  const handleVictory = async () => {
+    const response = await updateUserProgress(userData.userProgress);
+    console.log(response);
     router.push("/dashboard/exam/victory");
   };
 
