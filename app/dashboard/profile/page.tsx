@@ -3,13 +3,13 @@
 import toast from "react-hot-toast";
 import Input from "@/app/components/ui/Input";
 import Button from "@/app/components/ui/Button";
+import ProgressBar from "../components/ProgressBar";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { updateUser } from "@/lib/api/user-api";
 import { useUserData } from "@/hooks/use-user-data";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import ProgressBar from "../components/ProgressBar";
 
 export type ProfileFormData = {
   name: string;
@@ -20,6 +20,7 @@ export type ProfileFormData = {
 const ProfilePage = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const examData = JSON.parse(sessionStorage.getItem("examData") || "{}");
   const { userData } = useUserData();
   const {
     register,
@@ -56,6 +57,20 @@ const ProfilePage = () => {
   const handleSaveProfile = async (data: ProfileFormData) => {
     mutation.mutate(data);
   };
+
+  const handleSetPromotionExam = () => {
+    sessionStorage.setItem(
+      "examData",
+      JSON.stringify({
+        grade: examData.grade,
+        step: examData.step,
+        isPromotion: true,
+      })
+    );
+    router.push("/dashboard/exam");
+  };
+
+  if (!userData || !examData) return <div>Loading...</div>;
 
   return (
     <div>
@@ -111,6 +126,17 @@ const ProfilePage = () => {
             isPlayAnimation={false}
           />
         )}
+        {examData &&
+          userData.userProgress.currentGrade === examData.grade &&
+          userData.userProgress.exp === 3 && (
+            <Button
+              type="button"
+              className="w-20! mt-4"
+              onClick={handleSetPromotionExam}
+            >
+              승급시험
+            </Button>
+          )}
       </div>
     </div>
   );
