@@ -23,28 +23,40 @@ const VictoryPage = () => {
     router.push("/dashboard/exam");
   };
 
-  console.log(userData);
-
   return (
     <div className="flex flex-col justify-center items-center h-[calc(100vh-64px)]">
       <h1 className="text-[120px] md:text-[160px] font-bold font-yuji">勝利</h1>
       <div className="flex gap-4">
-        <Link href="/dashboard/exam">
-          <Button type="button" className="w-20! bg-white text-black!">
-            재도전
-          </Button>
-        </Link>
+        {!examData?.isPromotion && userData.userProgress.exp !== 3 && (
+          <Link
+            href={`/dashboard/${examData.grade}/${
+              userData.userProgress.exp + 1
+            }`}
+          >
+            <Button type="button" className="w-20! bg-white text-black!">
+              다음단계
+            </Button>
+          </Link>
+        )}
         <Link href="/dashboard">
           <Button type="button" className="w-20! bg-white text-black!">
             메인으로
           </Button>
         </Link>
       </div>
-      {userData?.userProgress && (
+      {!examData?.isPromotion && userData?.userProgress && (
         <ProgressBar
           userProgress={userData.userProgress}
           isPlayAnimation={true}
         />
+      )}
+      {examData?.isPromotion && (
+        <>
+          <h2 className="mt-4 text-2xl md:text-4xl font-bold">
+            승급을 축하합니다!
+          </h2>
+          <h3 className="mt-2 text-xl md:text-2xl font-bold">{`${examData.grade}급 => ${userData.userProgress.currentGrade}급`}</h3>
+        </>
       )}
       {userData.userProgress.currentGrade === examData.grade &&
         userData.userProgress.exp === 3 && (
