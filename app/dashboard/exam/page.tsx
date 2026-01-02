@@ -48,23 +48,42 @@ const ExamPage = () => {
 
   // 시험용 배열로 가공
   useEffect(() => {
-    if (!words.length || !meanings?.length) return;
-    const func = () => {
-      const newExamWords = words.map((word) => ({
-        ...word,
-        choice: shuffle([
-          word.wordMeaning,
-          ...shuffle(meanings)
-            .filter((meaning) => meaning !== word.wordMeaning)
-            .slice(0, 3),
-        ]),
-      }));
-      setExamWords(newExamWords);
+    if (!words.length || !meanings?.length || !examData) return;
+
+    const handleSetWordsForExam = () => {
+      if (examData.isPromotion) {
+        const newExamWords = words
+          .map((word) => ({
+            ...word,
+            choice: shuffle([
+              word.wordMeaning,
+              ...shuffle(meanings)
+                .filter((meaning) => meaning !== word.wordMeaning)
+                .slice(0, 3),
+            ]),
+          }))
+          .slice(0, 20);
+        setExamWords(newExamWords);
+        return;
+      } else {
+        const newExamWords = words.map((word) => ({
+          ...word,
+          choice: shuffle([
+            word.wordMeaning,
+            ...shuffle(meanings)
+              .filter((meaning) => meaning !== word.wordMeaning)
+              .slice(0, 3),
+          ]),
+        }));
+        setExamWords(newExamWords);
+      }
     };
-    func();
-  }, [words, meanings]);
+    handleSetWordsForExam();
+  }, [words, meanings, examData]);
 
   if (!examData) return <div>Loading...</div>;
+
+  console.log(examWords);
 
   return (
     <div className="h-[calc(100vh-64px)] flex justify-center items-center">
