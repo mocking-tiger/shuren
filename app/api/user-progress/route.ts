@@ -16,7 +16,7 @@ export async function PUT(request: NextRequest) {
         { message: "잘못된 접근이니까 업데이트 안할게" },
         { status: 200 }
       );
-    } else if (userProgress.exp >= examInfo.step) {
+    } else if (!examInfo.isPromotion && userProgress.exp >= examInfo.step) {
       return NextResponse.json(
         { message: "이미 클리어 한 단계니까 업데이트 안할게" },
         { status: 200 }
