@@ -55,7 +55,11 @@ const VictoryPage = () => {
           <h2 className="mt-4 text-2xl md:text-4xl font-bold">
             승급을 축하합니다!
           </h2>
-          <h3 className="mt-2 text-xl md:text-2xl font-bold">{`${examData.grade}급 => ${userData.userProgress.currentGrade}급`}</h3>
+          <h3 className="mt-2 text-xl md:text-2xl font-bold">
+            {userData.userProgress.isMaster
+              ? "모든 단계를 클리어했고 축하하고 동사,명사편을 기대해달라는 메세지"
+              : `${examData.grade}급 => ${userData.userProgress.currentGrade}급`}
+          </h3>
         </>
       )}
       {userData.userProgress.currentGrade === examData.grade &&

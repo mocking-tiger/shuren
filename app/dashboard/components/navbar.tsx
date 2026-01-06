@@ -21,7 +21,9 @@ const Navbar = () => {
           <Link href="/dashboard/profile">
             <div className="flex items-center gap-1">
               <span className="w-16 hidden md:block text-right">
-                {userData.userProgress.currentGrade}급
+                {userData.userProgress.isMaster
+                  ? "사범"
+                  : `${userData.userProgress.currentGrade}급`}
               </span>
               <span className="min-w-16 max-w-20 text-right text-ellipsis overflow-hidden">
                 {userData.name}
