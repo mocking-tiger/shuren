@@ -27,8 +27,8 @@ export async function PUT(request: NextRequest) {
       await prisma.userProgress.update({
         where: { id: userProgress.id },
         data: {
-          currentGrade: examInfo.grade - 1,
-          exp: 0,
+          currentGrade: examInfo.grade === 1 ? 1 : examInfo.grade - 1,
+          exp: examInfo.grade === 1 ? 3 : 1,
           isMaster: examInfo.grade === 1 ? true : false,
         },
       });

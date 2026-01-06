@@ -128,7 +128,8 @@ const ProfilePage = () => {
         )}
         {examData &&
           userData.userProgress.currentGrade === examData.grade &&
-          userData.userProgress.exp === 3 && (
+          userData.userProgress.exp === 3 &&
+          !userData.userProgress.isMaster && (
             <Button
               type="button"
               className="w-20! mt-4"

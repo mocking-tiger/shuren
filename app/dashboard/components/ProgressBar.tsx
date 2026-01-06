@@ -36,7 +36,7 @@ const ProgressBar = ({
       {/* 등급 표시 */}
       <div className="flex justify-between mb-2 text-lg font-bold">
         <span>{currentGrade}급</span>
-        <span>{currentGrade - 1}급</span>
+        <span>{currentGrade - 1 === 0 ? "사범" : `${currentGrade - 1}급`}</span>
       </div>
 
       {/* 프로그레스 바 */}
