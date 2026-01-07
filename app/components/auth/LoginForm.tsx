@@ -82,6 +82,15 @@ const LoginForm = () => {
       <Link href="/signup" className="w-full">
         <Button type="button">회원가입</Button>
       </Link>
+      <Button
+        type="button"
+        className="w-full bg-green-500 font-bold"
+        onClick={() =>
+          handleLogin({ email: "demo@gmail.com", password: "1234" })
+        }
+      >
+        체험용 계정으로 로그인
+      </Button>
     </form>
   );
 };

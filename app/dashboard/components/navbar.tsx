@@ -20,7 +20,7 @@ const Navbar = () => {
         <div className="w-fit flex items-center gap-3">
           <Link href="/dashboard/profile">
             <div className="min-w-30 flex items-center gap-2">
-              <span className="hidden md:block text-right">
+              <span className="hidden md:block text-right text-sm">
                 {userData.userProgress.isMaster
                   ? "사범"
                   : `${userData.userProgress.currentGrade}급`}
