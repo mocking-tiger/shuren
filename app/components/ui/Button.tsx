@@ -17,7 +17,9 @@ const Button = ({
     <button
       type={type}
       onClick={onClick}
-      className={`w-full p-2 border bg-black text-white rounded-md cursor-pointer ${className}`}
+      className={`w-full p-2 border bg-black text-white rounded-md ${className} ${
+        disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+      }`}
       disabled={disabled}
     >
       {children}

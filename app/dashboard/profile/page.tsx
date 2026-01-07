@@ -5,6 +5,7 @@ import Input from "@/app/components/ui/Input";
 import Button from "@/app/components/ui/Button";
 import ProgressBar from "../components/ProgressBar";
 import { useEffect } from "react";
+import { Role } from "@/types/types";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { updateUser } from "@/lib/api/user-api";
@@ -82,16 +83,18 @@ const ProfilePage = () => {
         <Input
           type="text"
           id="name"
-          placeholder="이름을 입력해주세요."
+          placeholder="이름을 입력해주세요(최대 10자)."
           {...register("name", { required: "이름을 입력해주세요." })}
+          maxLength={10}
         />
         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
         <label htmlFor="password">비밀번호</label>
         <Input
           type="password"
           id="password"
-          placeholder="비밀번호를 입력해주세요."
+          placeholder="비밀번호를 입력해주세요(최대 20자)."
           {...register("password", { required: "비밀번호를 입력해주세요." })}
+          maxLength={20}
         />
         {errors.password && (
           <p className="text-red-500">{errors.password.message}</p>
@@ -107,17 +110,23 @@ const ProfilePage = () => {
               value === getValues("password") ||
               "비밀번호가 일치하지 않습니다.",
           })}
+          maxLength={20}
         />
         {errors.passwordConfirm && (
           <p className="text-red-500">{errors.passwordConfirm.message}</p>
         )}
         <Button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || userData.role === Role.GUEST}
           className={`${isSubmitting ? "bg-gray-300" : ""}`}
         >
           {isSubmitting ? "저장 중..." : "저장"}
         </Button>
+        {userData.role === Role.GUEST && (
+          <span className="text-red-500">
+            체험용 계정은 프로필 수정이 불가능합니다.
+          </span>
+        )}
       </form>
       <div className="w-[90%] md:w-[50%] mt-5 md:mt-20 mx-auto flex flex-col items-center justify-center gap-2 md:gap-4">
         {userData?.userProgress && (
