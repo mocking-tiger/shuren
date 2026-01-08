@@ -29,6 +29,7 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
   });
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isCorrect, setIsCorrect] = useState({ word: "", isCorrect: false });
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const handleIndexChange = (direction: "prev" | "next") => {
     if (currentIndex === 0 && direction === "prev") {
@@ -55,6 +56,7 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
 
   const handleClickAnswer = (choice: string) => {
     if (choice === words[currentIndex].wordMeaning) {
+      setIsButtonDisabled(true);
       setIsCorrect({ word: choice, isCorrect: true });
       setTimeout(() => {
         setIsCorrect({ word: "", isCorrect: false });
@@ -62,13 +64,15 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
           handleVictory();
         } else {
           handleIndexChange("next");
+          setIsButtonDisabled(false);
         }
-        handleIndexChange("next");
       }, 1000);
     } else {
+      setIsButtonDisabled(true);
       setIsCorrect({ word: choice, isCorrect: false });
       setTimeout(() => {
         setIsCorrect({ word: "", isCorrect: false });
+        setIsButtonDisabled(false);
         router.push("/dashboard/exam/defeat");
       }, 1000);
     }
@@ -122,6 +126,7 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
                   : "bg-white"
               }`}
               onClick={() => handleClickAnswer(choice)}
+              disabled={isButtonDisabled}
             >
               {choice}
             </Button>

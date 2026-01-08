@@ -4,8 +4,8 @@
 import Button from "@/app/components/ui/Button";
 import { useState } from "react";
 import { Word } from "@prisma/client";
-import { useParams, useRouter } from "next/navigation";
 import { runTTS } from "@/lib/utils/word-utils";
+import { useParams, useRouter } from "next/navigation";
 
 const WordList = ({ words }: { words: Word[] }) => {
   const router = useRouter();
