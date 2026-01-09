@@ -4,8 +4,8 @@ import toast from "react-hot-toast";
 import Input from "@/app/components/ui/Input";
 import Button from "@/app/components/ui/Button";
 import ProgressBar from "../components/ProgressBar";
-import { useEffect } from "react";
-import { Role } from "@/types/types";
+import { useEffect, useState } from "react";
+import { Role, ExamData } from "@/types/types";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { updateUser } from "@/lib/api/user-api";
@@ -21,8 +21,12 @@ export type ProfileFormData = {
 const ProfilePage = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const examData = JSON.parse(sessionStorage.getItem("examData") || "{}");
   const { userData } = useUserData();
+  const [examData] = useState<ExamData | null>(() => {
+    if (typeof window === "undefined") return null;
+    const data = sessionStorage.getItem("examData");
+    return data ? JSON.parse(data) : null;
+  });
   const {
     register,
     handleSubmit,
@@ -60,6 +64,8 @@ const ProfilePage = () => {
   };
 
   const handleSetPromotionExam = () => {
+    if (!examData) return;
+
     sessionStorage.setItem(
       "examData",
       JSON.stringify({
@@ -71,7 +77,7 @@ const ProfilePage = () => {
     router.push("/dashboard/exam");
   };
 
-  if (!userData || !examData) return <div>Loading...</div>;
+  if (!userData) return <div>Loading...</div>;
 
   return (
     <div>

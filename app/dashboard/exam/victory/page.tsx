@@ -5,13 +5,21 @@ import Button from "@/app/components/ui/Button";
 import ProgressBar from "@/app/dashboard/components/ProgressBar";
 import { useRouter } from "next/navigation";
 import { useUserData } from "@/hooks/use-user-data";
+import { useState } from "react";
+import { ExamData } from "@/types/types";
 
 const VictoryPage = () => {
   const router = useRouter();
-  const examData = JSON.parse(sessionStorage.getItem("examData") || "{}");
   const { userData } = useUserData();
+  const [examData] = useState<ExamData | null>(() => {
+    if (typeof window === "undefined") return null;
+    const data = sessionStorage.getItem("examData");
+    return data ? JSON.parse(data) : null;
+  });
 
   const handleSetPromotionExam = () => {
+    if (!examData) return;
+
     sessionStorage.setItem(
       "examData",
       JSON.stringify({
@@ -22,6 +30,10 @@ const VictoryPage = () => {
     );
     router.push("/dashboard/exam");
   };
+
+  if (!examData || !userData?.userProgress) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex flex-col justify-center items-center h-[calc(100vh-64px)]">
