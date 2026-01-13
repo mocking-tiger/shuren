@@ -1,5 +1,6 @@
 "use client";
 
+import LoadingComponent from "@/app/components/ui/Loading";
 import WordListForExam, { WordWithChoice } from "./components/WordListForExam";
 import { Word } from "@prisma/client";
 import { ExamData } from "@/types/types";
@@ -81,7 +82,7 @@ const ExamPage = () => {
     handleSetWordsForExam();
   }, [words, meanings, examData]);
 
-  if (!examData) return <div>Loading...</div>;
+  if (!examData) return <LoadingComponent />;
 
   console.log(examWords);
 

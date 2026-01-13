@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import Input from "@/app/components/ui/Input";
 import Button from "@/app/components/ui/Button";
 import ProgressBar from "../components/ProgressBar";
+import LoadingComponent from "@/app/components/ui/Loading";
 import { useEffect, useState } from "react";
 import { Role, ExamData } from "@/types/types";
 import { useForm } from "react-hook-form";
@@ -77,7 +78,7 @@ const ProfilePage = () => {
     router.push("/dashboard/exam");
   };
 
-  if (!userData) return <div>Loading...</div>;
+  if (!userData) return <LoadingComponent />;
 
   return (
     <div>

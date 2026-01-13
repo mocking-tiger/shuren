@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Button from "@/app/components/ui/Button";
+import LoadingComponent from "@/app/components/ui/Loading";
 import ProgressBar from "@/app/dashboard/components/ProgressBar";
 import { useRouter } from "next/navigation";
 import { useUserData } from "@/hooks/use-user-data";
@@ -32,7 +33,7 @@ const VictoryPage = () => {
   };
 
   if (!examData || !userData?.userProgress) {
-    return <div>Loading...</div>;
+    return <LoadingComponent />;
   }
 
   return (

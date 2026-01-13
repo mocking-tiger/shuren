@@ -3,11 +3,11 @@
 import Link from "next/link";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
+import LoadingComponent from "../ui/Loading";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import Loading1 from "../Loading1";
 
 type LoginFormData = {
   email: string;
@@ -19,13 +19,15 @@ const LoginForm = () => {
   const {
     register, // input에 연결
     handleSubmit, // 폼 제출 핸들링
-    formState: { errors, isSubmitting }, // 폼 제출 상태 관리
+    formState: { errors }, // 폼 에러 관리
   } = useForm<LoginFormData>();
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (data: LoginFormData) => {
     try {
       setError("");
+      setIsLoading(true);
 
       const response = await signIn("credentials", {
         email: data.email,
@@ -36,6 +38,7 @@ const LoginForm = () => {
       if (response?.error) {
         // 로그인 실패
         setError(response.error);
+        setIsLoading(false);
       } else {
         // 로그인 성공
         router.push("/dashboard");
@@ -43,6 +46,7 @@ const LoginForm = () => {
     } catch (e) {
       console.error("로그인 에러:", e);
       setError("로그인 중 오류가 발생했습니다.");
+      setIsLoading(false);
     }
   };
 
@@ -75,10 +79,10 @@ const LoginForm = () => {
 
       <Button
         type="submit"
-        disabled={isSubmitting}
-        className={`${isSubmitting ? "bg-gray-300" : ""}`}
+        disabled={isLoading}
+        className={`${isLoading ? "bg-gray-300" : ""}`}
       >
-        {isSubmitting ? "로그인 중..." : "로그인"}
+        {isLoading ? "로그인 중..." : "로그인"}
       </Button>
       <Link href="/signup" className="w-full">
         <Button type="button">회원가입</Button>
@@ -89,10 +93,11 @@ const LoginForm = () => {
         onClick={() =>
           handleLogin({ email: "demo@gmail.com", password: "1234" })
         }
+        disabled={isLoading}
       >
         체험용 계정으로 로그인
       </Button>
-      {isSubmitting && <Loading1 />}
+      {isLoading && <LoadingComponent />}
     </form>
   );
 };

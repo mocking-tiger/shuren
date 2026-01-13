@@ -1,15 +1,16 @@
 "use client";
-import { useUserData } from "@/hooks/use-user-data";
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
+import LoadingComponent from "@/app/components/ui/Loading";
 import { useParams } from "next/navigation";
+import { useUserData } from "@/hooks/use-user-data";
 
 const DashboardGradePage = () => {
   const { grade } = useParams();
   const { userData } = useUserData();
 
-  if (!userData || !userData.userProgress) return <div>Loading...</div>;
+  if (!userData || !userData.userProgress) return <LoadingComponent />;
 
   return (
     <div>

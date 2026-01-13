@@ -3,6 +3,7 @@
 
 import toast from "react-hot-toast";
 import Button from "@/app/components/ui/Button";
+import LoadingComponent from "@/app/components/ui/Loading";
 import { useState } from "react";
 import { Word } from "@prisma/client";
 import { useRouter } from "next/navigation";
@@ -78,7 +79,7 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
     }
   };
 
-  if (!words.length) return <div>단어 정보를 불러오는 중</div>;
+  if (!words.length) return <LoadingComponent />;
   return (
     <div className="w-full h-full flex justify-center items-center relative">
       {/* 인덱스 표시 */}

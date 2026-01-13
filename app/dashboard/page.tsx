@@ -1,6 +1,7 @@
 "use client";
 
 import GradeBox from "./components/GradeBox";
+import LoadingComponent from "../components/ui/Loading";
 import { Suspense, useEffect } from "react";
 import { fetchMeanings } from "@/lib/api/word-api";
 import { useUserData } from "@/hooks/use-user-data";
@@ -52,7 +53,7 @@ const DashboardPage = () => {
 
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingComponent />}>
         <ErrorHandler />
       </Suspense>
       <div className="px-4 md:px-32 py-4 md:py-16 flex flex-col gap-4 overflow-y-auto">

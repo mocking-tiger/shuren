@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Button from "@/app/components/ui/Button";
+import LoadingComponent from "@/app/components/ui/Loading";
 import { useState } from "react";
 import { Word } from "@prisma/client";
 import { runTTS } from "@/lib/utils/word-utils";
@@ -37,7 +38,8 @@ const WordList = ({ words }: { words: Word[] }) => {
     router.push("/dashboard/exam");
   };
 
-  if (!words.length) return <div>단어 정보를 불러오지 못했습니다.</div>;
+  if (!words.length) return <LoadingComponent />;
+
   return (
     <div className="w-full h-full flex justify-center items-center relative">
       {/* 인덱스 표시 */}
