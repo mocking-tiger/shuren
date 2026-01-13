@@ -2,7 +2,7 @@
 
 ## 기획문서: https://www.figma.com/board/wjZ6thDw200T6OJSB03TLJ/shuren?node-id=0-1&t=MNGoYCGSQ2j6Kmtt-1
 
-## 배포URL:
+## 배포URL: https://shuren.vercel.app/
 
 ## 기술 스택:
 
