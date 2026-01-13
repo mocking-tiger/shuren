@@ -2,7 +2,7 @@
 
 import GradeBox from "./components/GradeBox";
 import LoadingComponent from "../components/ui/Loading";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { fetchMeanings } from "@/lib/api/word-api";
 import { useUserData } from "@/hooks/use-user-data";
 import { useQueryClient } from "@tanstack/react-query";
@@ -42,6 +42,32 @@ const DashboardPage = () => {
   const { userData } = useUserData();
   const currentGrade = userData?.userProgress?.currentGrade ?? 9;
   const queryClient = useQueryClient();
+  const [isImagesLoaded, setIsImagesLoaded] = useState(false);
+
+  // 배경 이미지 프리로딩
+  useEffect(() => {
+    const preloadImages = async () => {
+      const imagePromises = bgConfigs.map((config) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = resolve;
+          img.onerror = reject;
+          img.src = config.url;
+        });
+      });
+
+      try {
+        await Promise.all(imagePromises);
+        setIsImagesLoaded(true);
+      } catch (error) {
+        console.error("이미지 로딩 실패:", error);
+        // 에러가 나도 페이지는 보여줌
+        setIsImagesLoaded(true);
+      }
+    };
+
+    preloadImages();
+  }, []);
 
   // 뜻 목록 가져오기
   useEffect(() => {
@@ -50,6 +76,11 @@ const DashboardPage = () => {
       queryFn: fetchMeanings,
     });
   }, [queryClient]);
+
+  // 이미지 로딩 중이면 로딩 컴포넌트 표시
+  if (!isImagesLoaded) {
+    return <LoadingComponent />;
+  }
 
   return (
     <div>
