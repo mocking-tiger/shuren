@@ -7,6 +7,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import Loading1 from "../Loading1";
 
 type LoginFormData = {
   email: string;
@@ -91,6 +92,7 @@ const LoginForm = () => {
       >
         체험용 계정으로 로그인
       </Button>
+      {isSubmitting && <Loading1 />}
     </form>
   );
 };
