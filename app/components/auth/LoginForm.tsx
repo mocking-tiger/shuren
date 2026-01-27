@@ -52,7 +52,7 @@ const LoginForm = () => {
 
   return (
     <form
-      className="w-[90%] md:w-[50%] mt-5 md:mt-20 mx-auto flex flex-col items-center justify-center gap-2 md:gap-4"
+      className="w-[90%] md:w-[50%] 2xl:w-[30%] mt-5 md:mt-20 mx-auto flex flex-col items-center justify-center gap-2 md:gap-4"
       onSubmit={handleSubmit(handleLogin)}
     >
       {error && <p className="text-red-500">{error}</p>}

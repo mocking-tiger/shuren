@@ -41,29 +41,29 @@ const WordList = ({ words }: { words: Word[] }) => {
   if (!words.length) return <LoadingComponent />;
 
   return (
-    <div className="w-full h-full flex justify-center items-center relative">
+    <div className="w-[80%] h-[80%] flex justify-center items-center relative">
       {/* 인덱스 표시 */}
       <div className="absolute top-6 text-xl font-bold">
         {currentIndex + 1} / {words.length}
       </div>
 
       {/* 이전, 다음 */}
-      <div
-        className="p-2 absolute top-[45%] left-1 md:left-6 text-2xl font-bold cursor-pointer"
+      {currentIndex!==0&&<div
+        className="p-2 absolute top-[45%] -left-8 md:left-6 text-2xl md:text-4xl font-bold cursor-pointer"
         onClick={() => handleIndexChange("prev")}
       >
         {"<"}
-      </div>
-      <div
-        className="p-2 absolute top-[45%] right-1 md:right-6 text-2xl font-bold cursor-pointer"
+      </div>}
+      {currentIndex!==words.length-1&&<div
+        className="p-2 absolute top-[45%] -right-8 md:right-6 text-2xl md:text-4xl font-bold cursor-pointer"
         onClick={() => handleIndexChange("next")}
       >
         {">"}
-      </div>
+      </div>}
 
       {/* 단어 박스 */}
       <div
-        className="w-[80%] h-[80%] flex justify-center items-center bg-white rounded-md shadow-lg relative cursor-pointer"
+        className="w-full md:w-[80%] h-[60%] md:h-[80%] flex justify-center items-center bg-white rounded-md shadow-lg relative cursor-pointer"
         onClick={() => setIsToggled(!isToggled)}
       >
         {/* 음성 재생 버튼 */}
@@ -84,7 +84,7 @@ const WordList = ({ words }: { words: Word[] }) => {
         <h1
           className={`font-bold ${
             isToggled
-              ? "text-4xl md:text-[60px] relative bottom-[100px] md:bottom-[160px]"
+              ? "mb-10 text-4xl md:text-[60px] relative bottom-[100px] md:bottom-[160px]"
               : "text-4xl md:text-[120px]"
           }`}
         >
@@ -107,7 +107,7 @@ const WordList = ({ words }: { words: Word[] }) => {
               <img
                 src="/images/icon/speaker.svg"
                 alt="speaker"
-                className="w-10 h-10 absolute top-0 right-6"
+                className="md:w-10 md:h-10 w-6 h-6 absolute top-0 right-0 md:right-6"
                 onClick={(e) => {
                   e.stopPropagation();
                   runTTS(words[currentIndex].exampleKana, 0.5);

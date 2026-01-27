@@ -81,14 +81,14 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
 
   if (!words.length) return <LoadingComponent />;
   return (
-    <div className="w-full h-full flex justify-center items-center relative">
+    <div className="w-[80%] h-[80%] flex justify-center items-center relative">
       {/* 인덱스 표시 */}
       <div className="absolute top-6 text-xl font-bold">
         {currentIndex + 1} / {words.length}
       </div>
 
       {/* 단어 박스 */}
-      <div className="w-[80%] h-[80%] flex flex-col justify-center items-center bg-white rounded-md shadow-lg relative">
+      <div className="w-full md:w-[80%] h-[60%] md:h-[80%] flex flex-col justify-center items-center bg-white rounded-md shadow-lg relative">
         {/* 음성 재생 버튼 */}
         <div
           className="w-8 h-8 md:w-10 md:h-10 absolute top-6 right-6 cursor-pointer hover:scale-110 transition-all duration-300"
@@ -105,7 +105,7 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
         </div>
 
         {isCorrect.word === words[currentIndex].wordMeaning && (
-          <span className="absolute top-[120px] md:top-[90px] md:text-4xl">
+          <span className="absolute top-[50px] md:top-[90px] md:text-4xl">
             {words[currentIndex].wordKana}
           </span>
         )}

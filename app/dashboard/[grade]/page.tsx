@@ -14,7 +14,7 @@ const DashboardGradePage = () => {
 
   return (
     <div>
-      <div className="px-4 md:px-32 py-4 md:py-16 flex flex-col gap-4 overflow-y-auto">
+      <div className="px-4 md:px-32 2xl:w-[60%] 2xl:mx-auto py-4 md:py-16 flex flex-col gap-4 overflow-y-auto">
         {Array.from({ length: 3 }).map((_, index) => {
           const isLocked =
             userData.userProgress.currentGrade >= Number(grade) &&

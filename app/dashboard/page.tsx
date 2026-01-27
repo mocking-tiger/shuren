@@ -87,7 +87,7 @@ const DashboardPage = () => {
       <Suspense fallback={<LoadingComponent />}>
         <ErrorHandler />
       </Suspense>
-      <div className="px-4 md:px-32 py-4 md:py-16 flex flex-col gap-4 overflow-y-auto">
+      <div className="px-4 md:px-32  2xl:w-[60%] 2xl:mx-auto py-4 md:py-16 flex flex-col gap-4 overflow-y-auto">
         {Array.from({ length: 9 }).map((_, index) => (
           <GradeBox
             key={index}
