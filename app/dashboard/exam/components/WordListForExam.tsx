@@ -105,11 +105,11 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
         </div>
 
         {isCorrect.word === words[currentIndex].wordMeaning && (
-          <span className="absolute top-[50px] md:top-[90px] md:text-4xl">
+          <span className="absolute top-[10px] md:top-[150px] xl:top-[180px] md:text-4xl">
             {words[currentIndex].wordKana}
           </span>
         )}
-        <h1 className="text-4xl md:text-[120px] font-bold relative bottom-[50px] md:bottom-[80px]">
+        <h1 className="text-4xl md:text-[80px] xl:text-[120px] font-bold relative bottom-[20px] md:bottom-[80px]">
           {words[currentIndex].word}
         </h1>
 
@@ -119,7 +119,7 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
             <Button
               key={index}
               type="button"
-              className={`text-xl md:text-2xl font-bold bg-white text-black! ${
+              className={`text-base md:text-xl xl:text-2xl font-bold bg-white text-black! ${
                 isCorrect.word === choice && isCorrect.isCorrect
                   ? "bg-green-500! text-white!"
                   : isCorrect.word === choice && !isCorrect.isCorrect

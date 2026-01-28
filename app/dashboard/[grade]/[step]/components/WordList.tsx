@@ -125,7 +125,7 @@ const WordList = ({ words }: { words: Word[] }) => {
       {/* 시험 버튼 */}
       <Button
         type="button"
-        className="w-20! absolute bottom-6"
+        className="w-20! absolute bottom-0"
         onClick={handleExamClick}
       >
         시험
