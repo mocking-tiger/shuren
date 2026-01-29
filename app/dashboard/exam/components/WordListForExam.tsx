@@ -88,7 +88,7 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
       </div>
 
       {/* 단어 박스 */}
-      <div className="w-full md:w-[80%] h-[60%] md:h-[80%] flex flex-col justify-center items-center bg-white rounded-md shadow-lg relative">
+      <div className="w-full md:w-[80%] h-[400px] md:h-[600px] flex flex-col justify-center items-center bg-white rounded-md shadow-lg relative">
         {/* 음성 재생 버튼 */}
         <div
           className="w-8 h-8 md:w-10 md:h-10 absolute top-6 right-6 cursor-pointer hover:scale-110 transition-all duration-300"
@@ -105,11 +105,11 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
         </div>
 
         {isCorrect.word === words[currentIndex].wordMeaning && (
-          <span className="absolute top-[10px] md:top-[150px] xl:top-[180px] md:text-4xl">
+          <span className="absolute top-[30px] md:top-[80px] xl:top-[60px] md:text-2xl">
             {words[currentIndex].wordKana}
           </span>
         )}
-        <h1 className="text-4xl md:text-[80px] xl:text-[120px] font-bold relative bottom-[20px] md:bottom-[80px]">
+        <h1 className="text-4xl md:text-[60px] xl:text-[80px] font-bold relative bottom-[20px] md:bottom-[80px]">
           {words[currentIndex].word}
         </h1>
 

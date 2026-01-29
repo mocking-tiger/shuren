@@ -49,13 +49,13 @@ const WordList = ({ words }: { words: Word[] }) => {
 
       {/* 이전, 다음 */}
       {currentIndex!==0&&<div
-        className="p-2 absolute top-[45%] -left-8 md:left-6 text-2xl md:text-4xl font-bold cursor-pointer"
+        className="p-2 absolute top-[45%] -left-8 md:-left-3 text-2xl md:text-4xl font-bold cursor-pointer"
         onClick={() => handleIndexChange("prev")}
       >
         {"<"}
       </div>}
       {currentIndex!==words.length-1&&<div
-        className="p-2 absolute top-[45%] -right-8 md:right-6 text-2xl md:text-4xl font-bold cursor-pointer"
+        className="p-2 absolute top-[45%] -right-8 md:-right-3 text-2xl md:text-4xl font-bold cursor-pointer"
         onClick={() => handleIndexChange("next")}
       >
         {">"}
@@ -85,7 +85,7 @@ const WordList = ({ words }: { words: Word[] }) => {
           className={`font-bold ${
             isToggled
               ? "mb-10 text-4xl md:text-[60px] relative bottom-[100px] md:bottom-[160px]"
-              : "text-4xl md:text-[120px]"
+              : "text-4xl md:text-[80px] xl:text-[120px]"
           }`}
         >
           {words[currentIndex].word}
