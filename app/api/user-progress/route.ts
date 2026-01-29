@@ -28,7 +28,7 @@ export async function PUT(request: NextRequest) {
         where: { id: userProgress.id },
         data: {
           currentGrade: examInfo.grade === 1 ? 1 : examInfo.grade - 1,
-          exp: examInfo.grade === 1 ? 3 : 1,
+          exp: examInfo.grade === 1 ? 3 : 0,  // 승급 후 처음부터 시작 (1급 마스터는 예외)
           isMaster: examInfo.grade === 1 ? true : false,
         },
       });
