@@ -20,8 +20,10 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
   const { userData } = useUserData();
   const { mutate } = useMutation({
     mutationFn: updateUserProgress,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userData"] });
+    onSuccess: async () => {
+      // DB 업데이트 완료 후 최신 데이터를 확실히 가져온 후 페이지 이동
+      // (타이밍 이슈 방지: 서버 컴포넌트가 이전 데이터를 읽는 것을 방지)
+      await queryClient.refetchQueries({ queryKey: ["userData"] });
       router.push("/dashboard/exam/victory");
     },
     onError: () => {
