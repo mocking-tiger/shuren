@@ -55,7 +55,13 @@ const LoginForm = () => {
       className="w-[90%] md:w-[50%] 2xl:w-[30%] mt-5 md:mt-20 mx-auto flex flex-col items-center justify-center gap-2 md:gap-4"
       onSubmit={handleSubmit(handleLogin)}
     >
-      {error && <p className="text-red-500">{error}</p>}
+      {error && (
+        <p className="text-red-500">
+          {error.includes("max clients")
+            ? "데이터 베이스 무료티어 할당량을 초과했습니다. 열심히 일해서 꼭 유료플랜 업그레이드 하겠습니다."
+            : error}
+        </p>
+      )}
 
       <label htmlFor="email">이메일</label>
       <Input
