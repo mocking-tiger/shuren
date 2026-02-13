@@ -24,6 +24,11 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
       // DB 업데이트 완료 후 최신 데이터를 확실히 가져온 후 페이지 이동
       // (타이밍 이슈 방지: 서버 컴포넌트가 이전 데이터를 읽는 것을 방지)
       await queryClient.refetchQueries({ queryKey: ["userData"] });
+
+      // Supabase 무료 플랜의 레플리케이션 지연을 고려한 추가 대기
+      // 서버 컴포넌트가 getServerUser()로 조회할 때 최신 데이터를 읽도록 보장
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
       router.push("/dashboard/exam/victory");
     },
     onError: () => {
