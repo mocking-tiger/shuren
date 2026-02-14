@@ -29,7 +29,7 @@ const ErrorHandler = () => {
     const error = searchParams.get("error");
     if (error === "grade_locked") {
       alert(
-        `공부에는.왕도가.없읍니다..\n옛말에.천리길도.한걸음부터라고.했으니.힘내서.정진합시다^^\n정진하는.당신이.쵝오~~~b`
+        `공부에는.왕도가.없읍니다..\n옛말에.천리길도.한걸음부터라고.했으니.힘내서.정진합시다^^\n정진하는.당신이.쵝오~~~b`,
       );
       router.push("/dashboard");
     }
@@ -43,7 +43,7 @@ const DashboardPage = () => {
   const currentGrade = userData?.userProgress?.currentGrade ?? 9;
   const queryClient = useQueryClient();
   const [isImagesLoaded, setIsImagesLoaded] = useState(false);
-
+  console.log(userData);
   // 배경 이미지 프리로딩
   useEffect(() => {
     const preloadImages = async () => {

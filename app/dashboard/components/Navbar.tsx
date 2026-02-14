@@ -7,6 +7,7 @@ import { useUserData } from "@/hooks/use-user-data";
 
 const Navbar = () => {
   const { session, userData, isLoading, error } = useUserData();
+  console.log(userData);
   return (
     <div className="w-full h-14 px-4 absolute top-0 left-0 bg-white flex justify-between items-center shadow-md">
       <Link href="/dashboard">

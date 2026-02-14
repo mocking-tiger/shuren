@@ -63,7 +63,7 @@ const WordList = ({ words }: { words: Word[] }) => {
 
       {/* 단어 박스 */}
       <div
-        className="w-full md:w-[80%] h-[60%] md:h-[80%] flex justify-center items-center bg-white rounded-md shadow-lg relative cursor-pointer"
+        className="w-full md:w-[80%] h-[400px] md:h-[600px] flex justify-center items-center bg-white rounded-md shadow-lg relative cursor-pointer"
         onClick={() => setIsToggled(!isToggled)}
       >
         {/* 음성 재생 버튼 */}
@@ -85,7 +85,7 @@ const WordList = ({ words }: { words: Word[] }) => {
           className={`font-bold ${
             isToggled
               ? "mb-10 text-4xl md:text-[60px] relative bottom-[100px] md:bottom-[160px]"
-              : "text-4xl md:text-[80px] xl:text-[120px]"
+              : "text-4xl md:text-[60px] xl:text-[80px]"
           }`}
         >
           {words[currentIndex].word}
