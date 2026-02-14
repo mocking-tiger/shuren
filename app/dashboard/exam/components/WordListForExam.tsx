@@ -121,17 +121,17 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
         </h1>
 
         {/* 선택지 버튼 */}
-        <div className="px-4 flex flex-col md:grid md:grid-cols-2 gap-4">
+        <div className="px-4 flex flex-col md:grid md:grid-cols-2 gap-4 w-full">
           {words[currentIndex].choice.map((choice, index) => (
             <Button
               key={index}
               type="button"
-              className={`text-base md:text-xl xl:text-2xl font-bold bg-white text-black! ${
+              className={`w-full text-base md:text-xl xl:text-2xl font-bold bg-white text-black! ${
                 isCorrect.word === choice && isCorrect.isCorrect
                   ? "bg-green-500! text-white!"
                   : isCorrect.word === choice && !isCorrect.isCorrect
-                  ? "bg-red-500! text-white!"
-                  : "bg-white"
+                    ? "bg-red-500! text-white!"
+                    : "bg-white"
               }`}
               onClick={() => handleClickAnswer(choice)}
               disabled={isButtonDisabled}
