@@ -3,7 +3,7 @@
 import toast from "react-hot-toast";
 import Input from "@/app/components/ui/Input";
 import Button from "@/app/components/ui/Button";
-import ProgressBar from "../components/ProgressBar";
+import ProgressBar from "../_components/ProgressBar";
 import LoadingComponent from "@/app/components/ui/Loading";
 import { useEffect, useState } from "react";
 import { Role, ExamData } from "@/types/types";
@@ -73,13 +73,13 @@ const ProfilePage = () => {
         grade: examData.grade,
         step: examData.step,
         isPromotion: true,
-      })
+      }),
     );
     router.push("/dashboard/exam");
   };
 
   if (!userData) return <LoadingComponent />;
-
+  console.log(examData);
   return (
     <div>
       <form

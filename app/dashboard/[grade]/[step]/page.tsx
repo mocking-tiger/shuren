@@ -1,6 +1,6 @@
 "use client";
 
-import WordList from "./components/WordList";
+import WordList from "./_components/WordList";
 import LoadingComponent from "@/app/components/ui/Loading";
 import { useParams } from "next/navigation";
 import { useWords } from "@/hooks/use-words";

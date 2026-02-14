@@ -33,7 +33,7 @@ const WordList = ({ words }: { words: Word[] }) => {
         grade: Number(grade),
         step: Number(step),
         isPromotion: false,
-      })
+      }),
     );
     router.push("/dashboard/exam");
   };
@@ -48,18 +48,22 @@ const WordList = ({ words }: { words: Word[] }) => {
       </div>
 
       {/* 이전, 다음 */}
-      {currentIndex!==0&&<div
-        className="p-2 absolute top-[45%] -left-8 md:-left-3 text-2xl md:text-4xl font-bold cursor-pointer"
-        onClick={() => handleIndexChange("prev")}
-      >
-        {"<"}
-      </div>}
-      {currentIndex!==words.length-1&&<div
-        className="p-2 absolute top-[45%] -right-8 md:-right-3 text-2xl md:text-4xl font-bold cursor-pointer"
-        onClick={() => handleIndexChange("next")}
-      >
-        {">"}
-      </div>}
+      {currentIndex !== 0 && (
+        <div
+          className="p-2 absolute top-[45%] -left-8 md:-left-3 text-2xl md:text-4xl font-bold cursor-pointer"
+          onClick={() => handleIndexChange("prev")}
+        >
+          {"<"}
+        </div>
+      )}
+      {currentIndex !== words.length - 1 && (
+        <div
+          className="p-2 absolute top-[45%] -right-8 md:-right-3 text-2xl md:text-4xl font-bold cursor-pointer"
+          onClick={() => handleIndexChange("next")}
+        >
+          {">"}
+        </div>
+      )}
 
       {/* 단어 박스 */}
       <div
@@ -101,7 +105,7 @@ const WordList = ({ words }: { words: Word[] }) => {
 
             <div className="mt-10">{words[currentIndex].exampleKana}</div>
             <div className="relative w-full">
-              <div className="text-xl md:text-4xl">
+              <div className="text-xl xl:text-4xl">
                 {words[currentIndex].example}
               </div>
               <img
@@ -125,7 +129,7 @@ const WordList = ({ words }: { words: Word[] }) => {
       {/* 시험 버튼 */}
       <Button
         type="button"
-        className="w-20! absolute bottom-0"
+        className="w-20! absolute bottom-0 md:-bottom-10"
         onClick={handleExamClick}
       >
         시험

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Button from "@/app/components/ui/Button";
 import LoadingComponent from "@/app/components/ui/Loading";
-import ProgressBar from "@/app/dashboard/components/ProgressBar";
+import ProgressBar from "@/app/dashboard/_components/ProgressBar";
 import { useRouter } from "next/navigation";
 import { useUserData } from "@/hooks/use-user-data";
 import { useState } from "react";
@@ -27,7 +27,7 @@ const VictoryPage = () => {
         grade: examData.grade,
         step: examData.step,
         isPromotion: true,
-      })
+      }),
     );
     router.push("/dashboard/exam");
   };

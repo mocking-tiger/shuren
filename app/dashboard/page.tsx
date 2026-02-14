@@ -1,6 +1,6 @@
 "use client";
 
-import GradeBox from "./components/GradeBox";
+import GradeBox from "./_components/GradeBox";
 import LoadingComponent from "../components/ui/Loading";
 import { Suspense, useEffect, useState } from "react";
 import { fetchMeanings } from "@/lib/api/word-api";
@@ -43,7 +43,6 @@ const DashboardPage = () => {
   const currentGrade = userData?.userProgress?.currentGrade ?? 9;
   const queryClient = useQueryClient();
   const [isImagesLoaded, setIsImagesLoaded] = useState(false);
-  console.log(userData);
   // 배경 이미지 프리로딩
   useEffect(() => {
     const preloadImages = async () => {
@@ -82,6 +81,7 @@ const DashboardPage = () => {
     return <LoadingComponent />;
   }
 
+  console.log(userData);
   return (
     <div>
       <Suspense fallback={<LoadingComponent />}>

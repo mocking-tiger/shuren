@@ -1,7 +1,7 @@
 "use client";
 
 import LoadingComponent from "@/app/components/ui/Loading";
-import WordListForExam, { WordWithChoice } from "./components/WordListForExam";
+import WordListForExam, { WordWithChoice } from "./_components/WordListForExam";
 import { Word } from "@prisma/client";
 import { ExamData } from "@/types/types";
 import { useRouter } from "next/navigation";
@@ -21,7 +21,7 @@ const ExamPage = () => {
   useEffect(() => {
     const getExamData = async () => {
       const data = JSON.parse(
-        sessionStorage.getItem("examData") || "{}"
+        sessionStorage.getItem("examData") || "{}",
       ) as ExamData;
       if (!data) {
         router.push("/dashboard");
@@ -40,7 +40,7 @@ const ExamPage = () => {
       const response = await fetchWordsAtExam(
         examData.grade,
         examData.step,
-        examData.isPromotion
+        examData.isPromotion,
       );
       setWords(response);
     };
