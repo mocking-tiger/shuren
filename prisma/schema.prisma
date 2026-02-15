@@ -23,7 +23,7 @@ enum Level {
 // Model
 // ================================================
 
-model User{
+model User {
   id           Int @id @default(autoincrement()) @map("id")
 
   email        String @unique
@@ -34,11 +34,12 @@ model User{
   updatedAt    DateTime @updatedAt @map("updated_at")
 
   userProgress UserProgress? 
+  userExamData UserExamData?
 
   @@map("user")
 }
 
-model UserProgress{
+model UserProgress {
   id Int @id @default(autoincrement())
 
   currentGrade Int @default(9) @map("current_grade")
@@ -51,7 +52,20 @@ model UserProgress{
   @@map("user_progress")
 }
 
-model Word{
+model UserExamData {
+  id Int @id @default(autoincrement())
+
+  grade Int @default(9) @map("grade")
+  step Int @default(1) @map("step")
+  isPromotion Boolean @default(false) @map("is_promotion")
+
+  userId Int @unique @map("user_id")
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("user_exam_data")
+}
+
+model Word {
   id             Int @id @default(autoincrement())
   word           String @unique
   wordKana       String @map("word_kana")
