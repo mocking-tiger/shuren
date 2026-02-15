@@ -11,8 +11,8 @@ import { useParams, useRouter } from "next/navigation";
 const WordList = ({ words }: { words: Word[] }) => {
   const router = useRouter();
   const { grade, step } = useParams();
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [isToggled, setIsToggled] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleIndexChange = (direction: "prev" | "next") => {
     if (currentIndex === 0 && direction === "prev") {
@@ -35,18 +35,13 @@ const WordList = ({ words }: { words: Word[] }) => {
         isPromotion: false,
       }),
     );
-    router.push("/dashboard/exam");
+    router.push(`/dashboard/exam/${grade}/${step}?isPromotion=false`);
   };
 
   if (!words.length) return <LoadingComponent />;
 
   return (
     <div className="w-[80%] h-[80%] flex justify-center items-center relative">
-      {/* 인덱스 표시 */}
-      <div className="absolute top-6 text-xl font-bold">
-        {currentIndex + 1} / {words.length}
-      </div>
-
       {/* 이전, 다음 */}
       {currentIndex !== 0 && (
         <div
@@ -70,6 +65,11 @@ const WordList = ({ words }: { words: Word[] }) => {
         className="w-full md:w-[80%] h-[400px] md:h-[600px] flex justify-center items-center bg-white rounded-md shadow-lg relative cursor-pointer"
         onClick={() => setIsToggled(!isToggled)}
       >
+        {/* 인덱스 표시 */}
+        <div className="absolute top-6 left-1/2 -translate-x-1/2 text-xl font-bold">
+          {currentIndex + 1} / {words.length}
+        </div>
+
         {/* 음성 재생 버튼 */}
         <div
           className="w-8 h-8 md:w-10 md:h-10 absolute top-6 right-6 cursor-pointer hover:scale-110 transition-all duration-300"
@@ -129,7 +129,7 @@ const WordList = ({ words }: { words: Word[] }) => {
       {/* 시험 버튼 */}
       <Button
         type="button"
-        className="w-20! absolute bottom-0 md:-bottom-10"
+        className="w-20! absolute bottom-0 md:-bottom-16"
         onClick={handleExamClick}
       >
         시험
