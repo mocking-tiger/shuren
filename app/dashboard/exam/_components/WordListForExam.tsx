@@ -24,8 +24,8 @@ const WordListForExam = ({
   const { userData } = useUserData();
   const { mutate } = useMutation({
     mutationFn: updateUserProgress,
-    onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: ["userData"] });
+    onSuccess: async () => {
+      await queryClient.refetchQueries({ queryKey: ["userData"] });
       router.push("/dashboard/exam/victory");
     },
     onError: () => {
