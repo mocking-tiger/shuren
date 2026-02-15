@@ -7,9 +7,12 @@ import { useState } from "react";
 import { Word } from "@prisma/client";
 import { runTTS } from "@/lib/utils/word-utils";
 import { useParams, useRouter } from "next/navigation";
+import { upsertUserExamData } from "@/lib/api/exam-api";
+import { useQueryClient } from "@tanstack/react-query";
 
 const WordList = ({ words }: { words: Word[] }) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { grade, step } = useParams();
   const [isToggled, setIsToggled] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -27,15 +30,14 @@ const WordList = ({ words }: { words: Word[] }) => {
   };
 
   const handleExamClick = () => {
-    sessionStorage.setItem(
-      "examData",
-      JSON.stringify({
-        grade: Number(grade),
-        step: Number(step),
-        isPromotion: false,
-      }),
-    );
-    router.push(`/dashboard/exam/${grade}/${step}?isPromotion=false`);
+    upsertUserExamData({
+      grade: Number(grade),
+      step: Number(step),
+      isPromotion: false,
+    });
+    queryClient.invalidateQueries({ queryKey: ["examData"] });
+
+    router.push("/dashboard/exam");
   };
 
   if (!words.length) return <LoadingComponent />;
@@ -66,7 +68,7 @@ const WordList = ({ words }: { words: Word[] }) => {
         onClick={() => setIsToggled(!isToggled)}
       >
         {/* 인덱스 표시 */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 text-xl font-bold">
+        <div className="absolute top-6 left-1/2 -translate-x-1/2 text-xs md:text-xl font-bold">
           {currentIndex + 1} / {words.length}
         </div>
 

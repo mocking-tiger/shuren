@@ -5,13 +5,14 @@ import Input from "@/app/components/ui/Input";
 import Button from "@/app/components/ui/Button";
 import ProgressBar from "../_components/ProgressBar";
 import LoadingComponent from "@/app/components/ui/Loading";
-import { useEffect, useState } from "react";
-import { Role, ExamData } from "@/types/types";
+import { useEffect } from "react";
+import { Role } from "@/types/types";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { updateUser } from "@/lib/api/user-api";
 import { useUserData } from "@/hooks/use-user-data";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getUserExamData, upsertUserExamData } from "@/lib/api/exam-api";
 
 export type ProfileFormData = {
   name: string;
@@ -23,10 +24,9 @@ const ProfilePage = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { userData } = useUserData();
-  const [examData] = useState<ExamData | null>(() => {
-    if (typeof window === "undefined") return null;
-    const data = sessionStorage.getItem("examData");
-    return data ? JSON.parse(data) : null;
+  const { data: examData } = useQuery({
+    queryKey: ["examData"],
+    queryFn: getUserExamData,
   });
   const {
     register,
@@ -64,17 +64,16 @@ const ProfilePage = () => {
     mutation.mutate(data);
   };
 
-  const handleSetPromotionExam = () => {
+  const handleSetPromotionExam = async () => {
     if (!examData) return;
 
-    sessionStorage.setItem(
-      "examData",
-      JSON.stringify({
-        grade: examData.grade,
-        step: examData.step,
-        isPromotion: true,
-      }),
-    );
+    await upsertUserExamData({
+      grade: examData.grade,
+      step: examData.step,
+      isPromotion: true,
+    });
+
+    await queryClient.refetchQueries({ queryKey: ["examData"] });
     router.push("/dashboard/exam");
   };
 

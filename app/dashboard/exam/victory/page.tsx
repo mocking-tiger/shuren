@@ -5,30 +5,29 @@ import Button from "@/app/components/ui/Button";
 import LoadingComponent from "@/app/components/ui/Loading";
 import ProgressBar from "@/app/dashboard/_components/ProgressBar";
 import { useRouter } from "next/navigation";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useUserData } from "@/hooks/use-user-data";
-import { useState } from "react";
-import { ExamData } from "@/types/types";
+import { getUserExamData, upsertUserExamData } from "@/lib/api/exam-api";
 
 const VictoryPage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { userData } = useUserData();
-  const [examData] = useState<ExamData | null>(() => {
-    if (typeof window === "undefined") return null;
-    const data = sessionStorage.getItem("examData");
-    return data ? JSON.parse(data) : null;
+  const { data: examData } = useQuery({
+    queryKey: ["examData"],
+    queryFn: getUserExamData,
   });
 
-  const handleSetPromotionExam = () => {
+  const handleSetPromotionExam = async () => {
     if (!examData) return;
 
-    sessionStorage.setItem(
-      "examData",
-      JSON.stringify({
-        grade: examData.grade,
-        step: examData.step,
-        isPromotion: true,
-      }),
-    );
+    await upsertUserExamData({
+      grade: examData.grade,
+      step: examData.step,
+      isPromotion: true,
+    });
+
+    await queryClient.refetchQueries({ queryKey: ["examData"] });
     router.push("/dashboard/exam");
   };
 

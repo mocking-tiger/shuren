@@ -5,36 +5,34 @@ import toast from "react-hot-toast";
 import Button from "@/app/components/ui/Button";
 import LoadingComponent from "@/app/components/ui/Loading";
 import { useState } from "react";
-import { Word } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { runTTS } from "@/lib/utils/word-utils";
 import { useUserData } from "@/hooks/use-user-data";
 import { updateUserProgress } from "@/lib/api/exam-api";
+import { ExamData, WordWithChoice } from "@/types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export type WordWithChoice = Word & { choice: string[] };
-
-const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
+const WordListForExam = ({
+  words,
+  examData,
+}: {
+  words: WordWithChoice[];
+  examData: ExamData;
+}) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { userData } = useUserData();
   const { mutate } = useMutation({
     mutationFn: updateUserProgress,
-    onSuccess: async () => {
-      // DB 업데이트 완료 후 최신 데이터를 확실히 가져온 후 페이지 이동
-      // (타이밍 이슈 방지: 서버 컴포넌트가 이전 데이터를 읽는 것을 방지)
-      await queryClient.refetchQueries({ queryKey: ["userData"] });
-
-      // Supabase 무료 플랜의 레플리케이션 지연을 고려한 추가 대기
-      // 서버 컴포넌트가 getServerUser()로 조회할 때 최신 데이터를 읽도록 보장
-      await new Promise((resolve) => setTimeout(resolve, 300));
-
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: ["userData"] });
       router.push("/dashboard/exam/victory");
     },
     onError: () => {
       toast.error("프로그레스 업데이트에 실패했습니다.");
     },
   });
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isCorrect, setIsCorrect] = useState({ word: "", isCorrect: false });
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -51,7 +49,6 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
   };
 
   const handleVictory = async () => {
-    const examData = JSON.parse(sessionStorage.getItem("examData") || "{}");
     mutate({
       userProgress: userData.userProgress,
       examInfo: {
@@ -74,7 +71,7 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
           handleIndexChange("next");
           setIsButtonDisabled(false);
         }
-      }, 1000);
+      }, 500);
     } else {
       setIsButtonDisabled(true);
       setIsCorrect({ word: choice, isCorrect: false });
@@ -82,17 +79,18 @@ const WordListForExam = ({ words }: { words: WordWithChoice[] }) => {
         setIsCorrect({ word: "", isCorrect: false });
         setIsButtonDisabled(false);
         router.push("/dashboard/exam/defeat");
-      }, 1000);
+      }, 500);
     }
   };
 
-  if (!words.length) return <LoadingComponent />;
+  if (!words.length || !examData) return <LoadingComponent />;
+
   return (
     <div className="w-[80%] h-[80%] flex justify-center items-center relative">
       {/* 단어 박스 */}
       <div className="w-full md:w-[80%] h-[400px] md:h-[600px] flex flex-col justify-center items-center bg-white rounded-md shadow-lg relative">
         {/* 인덱스 표시 */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 text-xl font-bold">
+        <div className="absolute top-6 left-1/2 -translate-x-1/2 text-xs md:text-xl font-bold">
           {currentIndex + 1} / {words.length}
         </div>
 

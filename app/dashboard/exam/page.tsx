@@ -1,36 +1,24 @@
 "use client";
 
 import LoadingComponent from "@/app/components/ui/Loading";
-import WordListForExam, { WordWithChoice } from "./_components/WordListForExam";
+import WordListForExam from "./_components/WordListForExam";
 import { Word } from "@prisma/client";
-import { ExamData } from "@/types/types";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { WordWithChoice } from "@/types/types";
+import { useQuery } from "@tanstack/react-query";
 import { shuffle } from "@/lib/utils/exam-utils";
 import { useMeanings } from "@/hooks/use-meanings";
+import { getUserExamData } from "@/lib/api/exam-api";
 import { fetchWordsAtExam } from "@/lib/api/word-api";
 
 const ExamPage = () => {
-  const router = useRouter();
   const { data: meanings } = useMeanings();
-  const [examData, setExamData] = useState<ExamData>();
+  const { data: examData, isFetching } = useQuery({
+    queryKey: ["examData"],
+    queryFn: getUserExamData,
+  });
   const [words, setWords] = useState<Word[]>([]);
   const [examWords, setExamWords] = useState<Word[]>([]);
-
-  // 메타데이터 받아오기
-  useEffect(() => {
-    const getExamData = async () => {
-      const data = JSON.parse(
-        sessionStorage.getItem("examData") || "{}",
-      ) as ExamData;
-      if (!data) {
-        router.push("/dashboard");
-        return;
-      }
-      setExamData(data);
-    };
-    getExamData();
-  }, [router]);
 
   // 출제 단어 목록 가져오기
   useEffect(() => {
@@ -82,13 +70,15 @@ const ExamPage = () => {
     handleSetWordsForExam();
   }, [words, meanings, examData]);
 
-  if (!examData) return <LoadingComponent />;
+  if (!examData || isFetching) return <LoadingComponent />;
 
-  console.log(examWords);
-
+  console.log("exam/page", examData);
   return (
     <div className="h-[calc(100vh-64px)] flex justify-center items-center">
-      <WordListForExam words={shuffle(examWords as WordWithChoice[])} />
+      <WordListForExam
+        words={shuffle(examWords as WordWithChoice[])}
+        examData={examData}
+      />
     </div>
   );
 };

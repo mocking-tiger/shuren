@@ -1,3 +1,5 @@
+import { Word } from "@prisma/client";
+
 // ================================================
 // Enum
 // ================================================
@@ -13,33 +15,6 @@ export enum Level {
   N3 = "N3",
   N4 = "N4",
   N5 = "N5",
-}
-
-// ================================================
-// 테이블 인터페이스
-// ================================================
-export interface User {
-  id: number;
-
-  email: string;
-  name: string;
-  password: string;
-  role: Role;
-  createdAt: Date;
-  updatedAt: Date;
-
-  userProgress: UserProgress;
-}
-
-export interface UserProgress {
-  id: number;
-
-  currentGrade: number;
-  exp: number;
-  isMaster: boolean;
-
-  userId: number;
-  user: User;
 }
 
 // ================================================
@@ -61,4 +36,8 @@ export interface ExamData {
   grade: number;
   step: number;
   isPromotion: boolean;
+}
+
+export interface WordWithChoice extends Word {
+  choice: string[];
 }
