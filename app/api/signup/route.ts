@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     if (!email || !password) {
       return NextResponse.json(
         { error: "이메일과 비밀번호를 입력해주세요." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     if (existingUser) {
       return NextResponse.json(
         { error: "이미 존재하는 이메일입니다." },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -49,6 +49,15 @@ export async function POST(request: NextRequest) {
         },
       });
 
+      await tx.userExamData.create({
+        data: {
+          userId: user.id,
+          grade: 9,
+          step: 1,
+          isPromotion: false,
+        },
+      });
+
       const userWithName = await tx.user.update({
         where: { id: user.id },
         data: {
@@ -67,7 +76,7 @@ export async function POST(request: NextRequest) {
     console.error(error);
     return NextResponse.json(
       { error: "회원가입에 실패했습니다.\n 관리자에게 문의해주세요." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
