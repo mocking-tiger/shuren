@@ -2,11 +2,11 @@
 
 import GradeBox from "./_components/GradeBox";
 import LoadingComponent from "../components/ui/Loading";
-import { Suspense, useEffect, useState } from "react";
 import { fetchMeanings } from "@/lib/api/word-api";
 import { useUserData } from "@/hooks/use-user-data";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useRef, useState } from "react";
 
 const bgConfigs = [
   { url: "/images/bg/sprout.jpg", positionClass: "bg-center" },
@@ -24,13 +24,13 @@ const bgConfigs = [
 const ErrorHandler = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const hasShownAlert = useRef(false);
 
   useEffect(() => {
     const error = searchParams.get("error");
-    if (error === "grade_locked") {
-      alert(
-        `공부에는.왕도가.없읍니다..\n옛말에.천리길도.한걸음부터라고.했으니.힘내서.정진합시다^^\n정진하는.당신이.쵝오~~~b`,
-      );
+    if (error === "grade_locked" && !hasShownAlert.current) {
+      hasShownAlert.current = true;
+      alert(`수준에 맞지 않는 접근 시도`);
       router.push("/dashboard");
     }
   }, [searchParams, router]);

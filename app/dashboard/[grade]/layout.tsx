@@ -1,10 +1,6 @@
 import { getServerUser } from "@/lib/api/server-user-api";
 import { redirect } from "next/navigation";
 
-// Next.js 서버 컴포넌트 캐싱 비활성화
-// 승급 후 바로 접근 시 이전 등급 정보가 캐시되어 grade_locked 에러 발생 방지
-export const dynamic = 'force-dynamic';
-
 const DashboardGradeLayout = async ({
   children,
   params,
@@ -13,16 +9,20 @@ const DashboardGradeLayout = async ({
   params: Promise<{ grade: string }>;
 }) => {
   const userData = await getServerUser();
-  const currentGrade = userData?.userProgress?.currentGrade ?? 9;
+  const currentGrade = userData?.userProgress?.currentGrade;
   const { grade } = await params;
 
+  if (!currentGrade) {
+    return null;
+  }
+
   // 디버깅용 로그
-  console.log('[Grade Layout]', {
+  console.log("[Grade Layout]", {
     userId: userData?.id,
     currentGrade,
     requestedGrade: Number(grade),
-    hasUserProgress: !!userData?.userProgress,
-    willRedirect: currentGrade > Number(grade)
+    hasUserProgress: !!userData.userProgress,
+    willRedirect: currentGrade > Number(grade),
   });
 
   if (currentGrade > Number(grade)) {
