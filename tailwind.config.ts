@@ -19,6 +19,20 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      animation: {
+        "spin-reverse": "spin-reverse 1s linear infinite",
+        "fade-in": "fade-in 0.2s ease-in",
+      },
+      keyframes: {
+        "spin-reverse": {
+          from: { transform: "rotate(360deg)" },
+          to: { transform: "rotate(0deg)" },
+        },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+      },
     },
   },
   plugins: [],
