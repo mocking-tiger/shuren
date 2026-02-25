@@ -26,6 +26,7 @@ const DashboardGradeLayout = async ({
   });
 
   if (currentGrade > Number(grade)) {
+    console.log("grade/layout.tsx redirect");
     redirect("/dashboard?error=grade_locked");
   }
 
