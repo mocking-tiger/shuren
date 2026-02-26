@@ -1,22 +1,17 @@
-import { redirect } from "next/navigation";
-import { getServerUser } from "@/lib/api/server-user-api";
+"use client";
+import { redirect, useParams } from "next/navigation";
+import { useUserData } from "@/hooks/use-user-data";
 
-const DashboardGradeStepLayout = async ({
+const DashboardGradeStepLayout = ({
   children,
-  params,
 }: {
   children: React.ReactNode;
   params: Promise<{ grade: string; step: string }>;
 }) => {
-  const userData = await getServerUser();
+  const { userData } = useUserData();
   const currentGrade = userData?.userProgress?.currentGrade;
   const currentExp = userData?.userProgress?.exp;
-  const { grade, step } = await params;
-
-  console.log(userData);
-  if (currentExp === undefined || !currentGrade) {
-    return null;
-  }
+  const { grade, step } = useParams();
 
   // 디버깅용 로그
   console.log("[Step Layout]", {
