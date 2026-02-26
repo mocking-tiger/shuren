@@ -7,7 +7,6 @@ import LoadingComponent from "@/app/components/ui/Loading";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { runTTS } from "@/lib/utils/word-utils";
-import { useUserData } from "@/hooks/use-user-data";
 import { updateUserProgress } from "@/lib/api/exam-api";
 import { ExamData, WordWithChoice } from "@/types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -21,7 +20,6 @@ const WordListForExam = ({
 }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { userData } = useUserData();
   const { mutate } = useMutation({
     mutationFn: updateUserProgress,
     onSuccess: async () => {
@@ -50,12 +48,9 @@ const WordListForExam = ({
 
   const handleVictory = async () => {
     mutate({
-      userProgress: userData.userProgress,
-      examInfo: {
-        grade: examData.grade,
-        step: examData.step,
-        isPromotion: examData.isPromotion,
-      },
+      grade: examData.grade,
+      step: examData.step,
+      isPromotion: examData.isPromotion,
     });
   };
 

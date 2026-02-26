@@ -1,15 +1,11 @@
 import { apiGet, apiPost, apiPut } from "../axios";
-import { UserProgress } from "@prisma/client";
 
-export const updateUserProgress = async (progress: {
-  userProgress: UserProgress;
-  examInfo: {
-    grade: number;
-    step: number;
-    isPromotion: boolean;
-  };
+export const updateUserProgress = async (examInfo: {
+  grade: number;
+  step: number;
+  isPromotion: boolean;
 }) => {
-  const response = await apiPut("/user-progress", progress);
+  const response = await apiPut("/user-progress", { examInfo });
   return response.data;
 };
 
