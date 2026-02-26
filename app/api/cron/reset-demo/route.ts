@@ -1,11 +1,17 @@
 import { Role } from "@/types/types";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("Authorization");
+  const session = await getServerSession(authOptions);
+  const isAdmin = session?.user?.role === Role.ADMIN;
+  const isCron = authHeader === `Bearer ${process.env.CRON_SECRET}`;
+
   try {
-    if (!authHeader || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    if (!isAdmin && !isCron) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

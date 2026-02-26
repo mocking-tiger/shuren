@@ -7,6 +7,7 @@ import { useUserData } from "@/hooks/use-user-data";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 const bgConfigs = [
   { url: "/images/bg/sprout.jpg", positionClass: "bg-center" },
@@ -76,6 +77,17 @@ const DashboardPage = () => {
     });
   }, [queryClient]);
 
+  const handleResetDemo = async () => {
+    const response = await fetch("/api/cron/reset-demo", {
+      method: "GET",
+    });
+    if (response.ok) {
+      toast.success("데모계정 초기화 성공");
+    } else {
+      toast.error("데모계정 초기화 실패");
+    }
+  };
+
   // 이미지 로딩 중이면 로딩 컴포넌트 표시
   if (!isImagesLoaded) {
     return <LoadingComponent />;
@@ -83,7 +95,7 @@ const DashboardPage = () => {
 
   console.log(userData);
   return (
-    <div>
+    <div className="relative">
       <Suspense fallback={<LoadingComponent />}>
         <ErrorHandler />
       </Suspense>
@@ -98,6 +110,14 @@ const DashboardPage = () => {
           />
         ))}
       </div>
+      {userData && userData.role === 10 && (
+        <button
+          className="fixed bottom-4 right-4 bg-black text-white p-2 rounded-md"
+          onClick={handleResetDemo}
+        >
+          데모계정 초기화
+        </button>
+      )}
     </div>
   );
 };
